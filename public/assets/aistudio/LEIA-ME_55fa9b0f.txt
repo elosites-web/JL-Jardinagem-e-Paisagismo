@@ -1,0 +1,10 @@
+JL JARDINAGEM E PAISAGISMO — KIT DE IMAGENS PARA O GOOGLE AI STUDIO
+
+1. Anexe este ZIP e cole prompt-google-ai-studio-jl.txt no Google AI Studio. Caso a interface não extraia ZIP, descompacte e importe public/ mantendo as subpastas, além do manifesto e do prompt.
+2. public/images/galeria: 30 fotografias reais oriundas de Instagram-julio.zip; arquivos renomeados por assunto visual, sem ampliação artificial.
+3. public/images/galeria/thumbs: 30 versões menores, lado maior até 480 px, para a galeria.
+4. public/images/marca: PNGs originais e versões WebP transparentes. public/ contém favicon.ico, favicon-512.png e apple-touch-icon.png.
+5. public/images/hero: duas alternativas reais selecionadas do acervo, não imagens inéditas de banco. Não foram geradas fotos sintéticas neste kit; o prompt instrui o GAS a criar ou obter a hero ilustrativa e pares demonstrativos caso tenha recursos para isso.
+6. manifesto-galeria.json: nomes, dimensões, textos alternativos, categorias e destaques; inventario-imagens.csv: rastreabilidade. Não publique os inventários no site.
+7. Os originais já estavam comprimidos em WebP; a otimização preservou resoluções de origem e evitou aumento artificial. Imagens pequenas devem permanecer pequenas. O arquivo total é maior que o ZIP de origem porque inclui miniaturas, marca, favicons e alternativas de hero.
+8. Antes da publicação, confirme com Júlio o nome comercial, direito de uso das fotos, pares autênticos antes/depois, dados do responsável, domínio e demais informações comerciais. Não use simulações como prova de trabalho.

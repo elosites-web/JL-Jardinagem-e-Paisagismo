@@ -1,0 +1,150 @@
+import {
+  Sprout,
+  Route,
+  Scissors,
+  Compass,
+  Flower2,
+  CalendarCheck,
+  Trees,
+  Shovel,
+  Calendar,
+  ArrowUpRight,
+  type LucideIcon,
+} from 'lucide-react';
+import { SERVICES_LIST, type ServiceItem } from '../data/services';
+import { scrollRevealDirectiveProps } from '../utils/scrollReveal';
+import { buildServiceWhatsAppUrl } from '../utils/whatsapp';
+import { WhatsAppIcon } from './Icons';
+
+const SERVICE_ICONS: Record<ServiceItem['iconName'], LucideIcon> = {
+  sprout: Sprout,
+  route: Route,
+  scissors: Scissors,
+  compass: Compass,
+  flower2: Flower2,
+  calendarCheck: CalendarCheck,
+  trees: Trees,
+  shovel: Shovel,
+};
+
+function ServiceIcon({ name }: { name: ServiceItem['iconName'] }) {
+  const Icon = SERVICE_ICONS[name];
+  return (
+    <Icon
+      className="h-[19px] w-[19px] text-[#298637] transition-colors duration-300 group-hover:text-[#84C62B]"
+      strokeWidth={1.5}
+      aria-hidden="true"
+    />
+  );
+}
+
+export function ServicesSection() {
+  const revealHeader = scrollRevealDirectiveProps();
+  const revealGrid = scrollRevealDirectiveProps(80);
+  const revealNote = scrollRevealDirectiveProps(160);
+
+  return (
+    <section
+      id="servicos"
+      aria-labelledby="servicos-heading"
+      className="border-b border-[#BBA98D]/35 bg-[#F5F3E9] py-20 sm:py-24 lg:py-28"
+    >
+      <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-10">
+        <div
+          data-scroll-reveal={revealHeader['data-scroll-reveal']}
+          className={`${revealHeader.className} flex flex-col gap-6 md:flex-row md:items-end md:justify-between`}
+        >
+          <div className="max-w-2xl">
+            <p className="text-xs font-semibold tracking-[0.18em] uppercase text-[#298637]">
+              Serviços
+            </p>
+            <h2
+              id="servicos-heading"
+              className="mt-3 font-editorial text-3xl font-semibold leading-[1.12] text-[#10291C] sm:text-4xl lg:text-[2.75rem] text-balance"
+            >
+              Soluções para cuidar e transformar sua área verde.
+            </h2>
+          </div>
+
+          <a
+            href="#agendar-visita"
+            className="inline-flex min-h-[44px] w-fit items-center gap-2 rounded-lg border border-[#10291C]/25 bg-white/70 px-5 py-2.5 text-sm font-semibold text-[#10291C] transition-colors hover:border-[#298637] hover:bg-white whitespace-nowrap"
+          >
+            <Calendar className="h-4 w-4 text-[#298637]" strokeWidth={1.5} aria-hidden="true" />
+            <span>Agendar visita</span>
+          </a>
+        </div>
+
+        <div
+          data-scroll-reveal={revealGrid['data-scroll-reveal']}
+          className={`${revealGrid.className} mt-12 grid gap-px rounded-2xl border border-[#BBA98D]/45 bg-[#BBA98D]/35 sm:grid-cols-2 lg:grid-cols-4`}
+        >
+          {SERVICES_LIST.map((service, index) => {
+            const cornerClass = [
+              index === 0 ? 'rounded-t-2xl sm:rounded-tr-none' : '',
+              index === 1 ? 'sm:rounded-tr-2xl lg:rounded-tr-none' : '',
+              index === 3 ? 'lg:rounded-tr-2xl' : '',
+              index === 4 ? 'lg:rounded-bl-2xl' : '',
+              index === 6 ? 'sm:rounded-bl-2xl lg:rounded-bl-none' : '',
+              index === 7 ? 'rounded-b-2xl sm:rounded-bl-none' : '',
+            ]
+              .filter(Boolean)
+              .join(' ');
+
+            return (
+              <article
+                key={service.id}
+                className={`services-article-card group relative z-0 flex flex-col justify-between bg-[#F5F3E9] p-6 transition-[transform,box-shadow,background-color,border-radius] duration-300 ease-out hover:z-10 hover:scale-105 hover:!rounded-2xl hover:bg-[#FAF8F2] hover:shadow-[0_24px_48px_-14px_rgba(16,41,28,0.22)] hover:ring-1 hover:ring-[#BBA98D]/55 motion-reduce:transition-colors motion-reduce:hover:scale-100 sm:p-7 ${cornerClass}`}
+              >
+              <div>
+                <div className="flex items-center justify-between gap-4">
+                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-[#BBA98D]/45 bg-[#FAF8F2] transition-colors duration-300 group-hover:border-[#10291C] group-hover:bg-[#10291C]">
+                    <ServiceIcon name={service.iconName} />
+                  </span>
+                  <span className="font-mono text-xs font-medium tracking-wider tabular-nums text-[#10291C]/50 transition-colors duration-300 group-hover:text-[#298637]">
+                    {service.number}
+                  </span>
+                </div>
+
+                <h3 className="mt-5 font-editorial text-2xl font-semibold leading-snug text-[#10291C]">
+                  {service.name}
+                </h3>
+
+                <p className="mt-2.5 text-sm leading-relaxed text-[#10291C]/80">
+                  {service.description}
+                </p>
+              </div>
+
+              <div className="mt-6 border-t border-[#BBA98D]/30 pt-4">
+                <a
+                  href={buildServiceWhatsAppUrl(service.name)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Solicitar orçamento para ${service.name} pelo WhatsApp`}
+                  className="inline-flex min-h-[40px] items-center gap-2 text-sm font-semibold text-[#10291C] transition-colors hover:text-[#298637]"
+                >
+                  <WhatsAppIcon className="h-4 w-4 text-[#298637]" />
+                  <span>Solicitar orçamento</span>
+                  <ArrowUpRight
+                    className="h-4 w-4 opacity-70 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                    strokeWidth={1.6}
+                    aria-hidden="true"
+                  />
+                </a>
+              </div>
+              </article>
+            );
+          })}
+        </div>
+
+        <p
+          data-scroll-reveal={revealNote['data-scroll-reveal']}
+          className={`${revealNote.className} mt-6 text-xs leading-relaxed text-[#10291C]/70`}
+        >
+          O escopo de execução, o eventual fornecimento de materiais, mudas, insumos ou retirada de
+          resíduos vegetais são avaliados e confirmados conforme cada orçamento.
+        </p>
+      </div>
+    </section>
+  );
+}
