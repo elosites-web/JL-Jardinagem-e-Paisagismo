@@ -56,9 +56,9 @@ export function FloatingActions({ hideFloatingButtons }: FloatingActionsProps) {
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Solicitar orçamento pelo WhatsApp"
-          className="whatsapp-pulse pointer-events-auto inline-flex h-12 items-center gap-2.5 rounded-full bg-[#10291C] px-4 text-sm font-semibold text-[#F5F3E9] ring-1 ring-[#84C62B]/60 transition-transform hover:scale-[1.03]"
+          className="whatsapp-pulse whatsapp-floating-cta pointer-events-auto inline-flex h-12 items-center gap-2.5 rounded-full bg-[#84C62B] px-4 text-sm font-semibold text-[#10291C] ring-1 ring-[#10291C]/25 hover:bg-[#95d63c] hover:scale-[1.03]"
         >
-          <WhatsAppIcon className="h-5 w-5 text-[#84C62B]" />
+          <WhatsAppIcon className="h-5 w-5 text-[#10291C]" />
           <span className="hidden sm:inline">Orçamento</span>
         </a>
       )}

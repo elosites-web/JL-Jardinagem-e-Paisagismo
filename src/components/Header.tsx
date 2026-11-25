@@ -14,19 +14,26 @@ import { SITE_CONFIG } from '../config/siteConfig';
 import { useActiveSection } from '../hooks/useActiveSection';
 import { navigateToAnchorHref, syncHeaderHeightCssVar } from '../utils/anchorNavigation';
 import { MobileNavIcon, type MobileNavSectionId } from './MobileNavIcons';
+import { ReadingProgressBar } from './ReadingProgressBar';
 
 interface HeaderProps {
   onMobileMenuChange: (open: boolean) => void;
 }
 
-const DESKTOP_NAV_LINKS = [
-  { href: '#sobre', label: 'Sobre' },
-  { href: '#servicos', label: 'Serviços' },
-  { href: '#trabalhos', label: 'Trabalhos' },
-  { href: '#como-funciona', label: 'Como funciona' },
-  { href: '#duvidas', label: 'Dúvidas' },
-  { href: '#contato', label: 'Contato' },
-] as const;
+interface DesktopNavLink {
+  href: string;
+  sectionId: MobileNavSectionId;
+  label: string;
+}
+
+const DESKTOP_NAV_LINKS: readonly DesktopNavLink[] = [
+  { href: '#sobre', sectionId: 'sobre', label: 'Sobre' },
+  { href: '#servicos', sectionId: 'servicos', label: 'Serviços' },
+  { href: '#trabalhos', sectionId: 'trabalhos', label: 'Trabalhos' },
+  { href: '#como-funciona', sectionId: 'como-funciona', label: 'Como funciona' },
+  { href: '#duvidas', sectionId: 'duvidas', label: 'Dúvidas' },
+  { href: '#contato', sectionId: 'contato', label: 'Contato' },
+];
 
 interface MobileNavLink {
   href: string;
@@ -38,6 +45,7 @@ export function Header({ onMobileMenuChange }: HeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isMenuEntering, setIsMenuEntering] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isPastHero, setIsPastHero] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const drawerRef = useRef<HTMLDivElement>(null);
@@ -69,10 +77,21 @@ export function Header({ onMobileMenuChange }: HeaderProps) {
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 24);
+      const heroEl = document.getElementById('inicio');
+      if (heroEl) {
+        const headerBottom = headerRef.current?.getBoundingClientRect().bottom ?? 77;
+        setIsPastHero(heroEl.getBoundingClientRect().bottom <= headerBottom + 16);
+      } else {
+        setIsPastHero(window.scrollY > 560);
+      }
     };
     handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
   }, []);
 
   useEffect(() => {
@@ -209,17 +228,20 @@ export function Header({ onMobileMenuChange }: HeaderProps) {
       <header
         ref={headerRef}
         data-scrolled={isScrolled ? 'true' : 'false'}
-        className={`fixed inset-x-0 top-0 z-[45] overflow-hidden transition-all duration-300 ${
+        className={`fixed inset-x-0 top-0 z-[45] overflow-x-clip transition-all duration-300 ${
           isScrolled
             ? 'border-b border-[#F5F3E9]/22 bg-[#10291C]/78 backdrop-blur-xl backdrop-saturate-150 shadow-[0_14px_38px_-12px_rgba(9,24,16,0.52)]'
             : 'border-b border-white/12 bg-[#10291C]/60 backdrop-blur-md backdrop-saturate-125'
         }`}
       >
-        <div
-          className={`relative z-10 mx-auto flex h-[76px] max-w-[1280px] items-center justify-between gap-4 px-4 transition-all duration-300 sm:px-6 lg:gap-8 lg:px-10 ${
-            isScrolled ? 'bg-gradient-to-b from-white/[0.06] via-transparent to-transparent' : ''
-          }`}
-        >
+        <ReadingProgressBar />
+
+        <div className="relative overflow-hidden">
+          <div
+            className={`relative z-10 mx-auto flex h-[76px] max-w-[1280px] items-center justify-between gap-4 px-4 transition-all duration-300 sm:px-6 lg:gap-8 lg:px-10 ${
+              isScrolled ? 'bg-gradient-to-b from-white/[0.06] via-transparent to-transparent' : ''
+            }`}
+          >
           {/* Logo oficial legível em emblema claro para preservar contraste e marca */}
           <a
             href="#inicio"
@@ -235,20 +257,43 @@ export function Header({ onMobileMenuChange }: HeaderProps) {
             />
           </a>
 
-          {/* Navegação desktop */}
+          {/* Navegação desktop com sticky, transição sutil de blur/fundo após a hero e scrollspy */}
           <nav
             aria-label="Navegação principal"
-            className="hidden items-center gap-6 text-sm font-medium text-[#F5F3E9]/95 lg:flex"
+            data-past-hero={isPastHero ? 'true' : 'false'}
+            className={`hidden items-center gap-6 rounded-xl border px-4 py-1.5 text-sm font-medium text-[#F5F3E9]/95 transition-[background-color,border-color,box-shadow,backdrop-filter] duration-300 lg:sticky lg:top-0 lg:flex ${
+              isPastHero
+                ? 'border-[#F5F3E9]/16 bg-[#10291C]/50 backdrop-blur-md shadow-[0_8px_24px_-10px_rgba(9,24,16,0.5)]'
+                : 'border-transparent bg-transparent'
+            }`}
           >
-            {DESKTOP_NAV_LINKS.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                className="whitespace-nowrap shrink-0 py-1 drop-shadow-[0_1px_1px_rgba(9,24,16,0.35)] transition-colors hover:text-[#84C62B] underline-offset-4 hover:underline"
-              >
-                {item.label}
-              </a>
-            ))}
+            {DESKTOP_NAV_LINKS.map((item) => {
+              const isActive = activeSectionId === item.sectionId;
+              return (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  data-active={isActive ? 'true' : 'false'}
+                  aria-current={isActive ? 'location' : undefined}
+                  onClick={() => setActiveSection(item.sectionId)}
+                  className={`group relative whitespace-nowrap shrink-0 py-1 transition-colors duration-200 ${
+                    isActive
+                      ? 'text-[#84C62B] drop-shadow-[0_1px_2px_rgba(9,24,16,0.45)]'
+                      : 'text-[#F5F3E9]/92 drop-shadow-[0_1px_1px_rgba(9,24,16,0.35)] hover:text-[#84C62B]'
+                  }`}
+                >
+                  <span>{item.label}</span>
+                  <span
+                    aria-hidden="true"
+                    className={`absolute inset-x-0 -bottom-0.5 h-[2px] origin-center rounded-full bg-[#84C62B] transition-[transform,opacity] duration-250 ease-out motion-reduce:transition-none ${
+                      isActive
+                        ? 'scale-x-100 opacity-100 shadow-[0_0_8px_rgba(132,198,43,0.65)]'
+                        : 'scale-x-0 opacity-0 group-hover:scale-x-75 group-hover:opacity-65'
+                    }`}
+                  />
+                </a>
+              );
+            })}
           </nav>
 
           {/* Ação principal desktop + botão hambúrguer mobile */}
@@ -554,6 +599,7 @@ export function Header({ onMobileMenuChange }: HeaderProps) {
             <circle cx="84" cy="61" r="1.5" fill="#F5F3E9" fillOpacity="0.18" />
           </svg>
         </div>
+        </div>
       </header>
 
       {/* Menu hambúrguer mobile posicionado exatamente abaixo do cabeçalho uniforme */}
@@ -565,7 +611,7 @@ export function Header({ onMobileMenuChange }: HeaderProps) {
           role="dialog"
           aria-modal="true"
           aria-label="Menu de navegação"
-          className="animate-mobile-drawer-in fixed inset-x-0 bottom-0 top-[var(--header-height,77px)] z-40 flex flex-col bg-gradient-to-b from-[#10291C]/97 via-[#10291C]/98 to-[#0B1D13] backdrop-blur-xl text-[#F5F3E9] outline-none lg:hidden"
+          className="animate-mobile-drawer-in fixed inset-x-0 bottom-0 top-[var(--header-height,80px)] z-40 flex flex-col bg-gradient-to-b from-[#10291C]/97 via-[#10291C]/98 to-[#0B1D13] backdrop-blur-xl text-[#F5F3E9] outline-none lg:hidden"
         >
           <nav
             aria-label="Navegação mobile"

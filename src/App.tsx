@@ -89,7 +89,7 @@ export default function App() {
     <div className="min-h-screen bg-[#F5F3E9] text-[#10291C]">
       <a
         href="#conteudo-principal"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:rounded-lg focus:bg-[#84C62B] focus:px-4 focus:py-2.5 focus:text-sm focus:font-semibold focus:text-[#10291C]"
+        className="skip-link sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:rounded-lg focus:bg-[#84C62B] focus:px-4 focus:py-2.5 focus:text-sm focus:font-semibold focus:text-[#10291C]"
       >
         Pular para o conteúdo principal
       </a>
