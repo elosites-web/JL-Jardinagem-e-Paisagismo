@@ -2,13 +2,23 @@ import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import fs from 'fs';
 import path from 'path';
-import {defineConfig} from 'vite';
+import {defineConfig, loadEnv} from 'vite';
+import {injectOgImageUrlsIntoHtml, resolveOgImageUrl} from './src/utils/seoUrl';
 
-export default defineConfig(() => {
+export default defineConfig(({mode}) => {
+  const env = loadEnv(mode, process.cwd(), '');
+  const resolvedOgImageUrl = resolveOgImageUrl(env.VITE_SITE_URL);
+
   return {
     plugins: [
       react(),
       tailwindcss(),
+      {
+        name: 'resolve-og-image-urls',
+        transformIndexHtml(html) {
+          return injectOgImageUrlsIntoHtml(html, resolvedOgImageUrl);
+        },
+      },
       // Copies src/assets into dist/ so root-relative URLs like
       // "/src/assets/images/..." (e.g. generate_image output) still resolve
       // in production builds. Do not remove.

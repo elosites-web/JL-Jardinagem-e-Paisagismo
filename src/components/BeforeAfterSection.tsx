@@ -94,6 +94,8 @@ export function BeforeAfterSection() {
           <div className="lg:col-span-8">
             <div
               ref={containerRef}
+              data-scroll-parallax="14"
+              data-parallax-scale="1.08"
               style={{ touchAction: 'pan-y' }}
               onPointerDown={(event) => {
                 event.currentTarget.setPointerCapture(event.pointerId);
@@ -114,7 +116,7 @@ export function BeforeAfterSection() {
                 width={1200}
                 height={900}
                 decoding="sync"
-                className="pointer-events-none h-full w-full object-cover"
+                className="scroll-parallax-media pointer-events-none h-full w-full object-cover"
               />
 
               {/* Imagem Antes (recortada com clip-path) */}
@@ -129,7 +131,7 @@ export function BeforeAfterSection() {
                   width={1200}
                   height={900}
                   decoding="sync"
-                  className="h-full w-full object-cover"
+                  className="scroll-parallax-media h-full w-full object-cover"
                 />
               </div>
 

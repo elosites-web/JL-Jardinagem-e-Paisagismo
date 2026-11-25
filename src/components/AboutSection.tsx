@@ -66,15 +66,21 @@ export function AboutSection() {
 
           <div data-scroll-reveal={revealRight['data-scroll-reveal']} className={`${revealRight.className} lg:col-span-6`}>
             <figure className="overflow-hidden rounded-2xl border border-[#BBA98D]/40 bg-[#10291C]/5">
-              <img
-                src="/images/hero/hero-real-reserva.webp"
-                alt="Área externa residencial com piscina, gramado aparado e canteiros junto ao muro executada pela JL"
-                width={1080}
-                height={1080}
-                loading="lazy"
-                decoding="async"
-                className="aspect-[4/3] w-full object-cover"
-              />
+              <div
+                data-scroll-parallax="14"
+                data-parallax-scale="1.08"
+                className="aspect-[4/3] w-full overflow-hidden"
+              >
+                <img
+                  src="/images/hero/hero-real-reserva.webp"
+                  alt="Área externa residencial com piscina, gramado aparado e canteiros junto ao muro executada pela JL"
+                  width={1080}
+                  height={1080}
+                  loading="lazy"
+                  decoding="async"
+                  className="scroll-parallax-media h-full w-full object-cover"
+                />
+              </div>
               <figcaption className="flex flex-wrap items-center justify-between gap-2 border-t border-[#BBA98D]/35 bg-[#F5F3E9] px-5 py-3.5 text-xs text-[#10291C]/75">
                 <span>Registro real compartilhado pela {COMPANY.tradeName}</span>
                 <span className="font-medium text-[#298637]">{COMPANY.serviceArea}</span>

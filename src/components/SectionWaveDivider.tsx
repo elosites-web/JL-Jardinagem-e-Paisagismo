@@ -3,9 +3,23 @@ import { computeSvgParallaxOffset } from '../utils/cursorParallax';
 import { ANCHOR_NAVIGATE_START_EVENT } from '../utils/scrollSpy';
 import { shouldRevealOnIntersect, shouldRevealOnMount } from '../utils/scrollReveal';
 
-export function SectionWaveDivider() {
+export interface SectionWaveDividerProps {
+  testId?: string;
+  backgroundClassName?: string;
+  anchorTargetIds?: readonly string[];
+}
+
+const DEFAULT_ANCHOR_TARGET_IDS: readonly string[] = ['servicos', 'sobre'];
+
+export function SectionWaveDivider({
+  testId = 'about-services-wave-divider',
+  backgroundClassName = 'bg-[#F5F3E9]',
+  anchorTargetIds = DEFAULT_ANCHOR_TARGET_IDS,
+}: SectionWaveDividerProps = {}) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const svgRef = useRef<SVGSVGElement | null>(null);
+  const anchorTargetIdsRef = useRef<readonly string[]>(anchorTargetIds);
+  anchorTargetIdsRef.current = anchorTargetIds;
   const [isDrawn, setIsDrawn] = useState<boolean>(() => {
     if (typeof window === 'undefined') return false;
     return Boolean(window.matchMedia?.('(prefers-reduced-motion: reduce)').matches);
@@ -67,7 +81,7 @@ export function SectionWaveDivider() {
 
     const handleAnchorNavigateStart = (event: Event) => {
       const targetId = (event as CustomEvent<{ targetId?: string }>).detail?.targetId;
-      if (targetId === 'servicos' || targetId === 'sobre') {
+      if (targetId && anchorTargetIdsRef.current.includes(targetId)) {
         setIsDrawn(true);
         observer.disconnect();
       }
@@ -167,8 +181,8 @@ export function SectionWaveDivider() {
     <div
       ref={containerRef}
       aria-hidden="true"
-      data-testid="about-services-wave-divider"
-      className="relative w-full overflow-hidden bg-[#F5F3E9] select-none"
+      data-testid={testId}
+      className={`relative w-full overflow-hidden ${backgroundClassName} select-none`}
     >
       <svg
         ref={svgRef}

@@ -44,6 +44,7 @@ import {
 import { navigateToAnchorId } from '../utils/anchorNavigation';
 import { scrollRevealDirectiveProps } from '../utils/scrollReveal';
 import { WhatsAppIcon } from './Icons';
+import { SectionWaveDivider } from './SectionWaveDivider';
 
 interface VisitRequestSectionProps {
   onOpenLegalDoc: (doc: LegalDocKey) => void;
@@ -206,9 +207,14 @@ export function VisitRequestSection({ onOpenLegalDoc }: VisitRequestSectionProps
     <section
       id="agendar-visita"
       aria-labelledby="agendar-visita-heading"
-      className="border-b border-[#BBA98D]/35 bg-[#F5F3E9] py-20 sm:py-24 lg:py-28"
+      className="border-b border-[#BBA98D]/35 bg-[#F5F3E9] pt-6 pb-20 sm:pt-8 sm:pb-24 lg:pt-10 lg:pb-28"
     >
-      <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-10">
+      <SectionWaveDivider
+        testId="agendar-visita-wave-divider"
+        backgroundClassName="bg-[#F5F3E9]"
+        anchorTargetIds={['agendar-visita']}
+      />
+      <div className="mx-auto max-w-[1280px] px-4 pt-10 sm:px-6 sm:pt-12 lg:px-10 lg:pt-14">
         <div className="grid gap-12 lg:grid-cols-12 lg:items-start">
           {/* Coluna editorial explicativa (scroll-reveal no filho interno para preservar lg:sticky) */}
           <div className="lg:col-span-5 lg:sticky lg:top-28">

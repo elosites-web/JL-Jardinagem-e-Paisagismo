@@ -120,8 +120,13 @@ export function ServicesSection() {
               >
               <div>
                 <div className="flex items-center justify-between gap-4">
-                  <span className="services-card-icon-badge inline-flex h-11 w-11 items-center justify-center rounded-xl border border-[#BBA98D]/45 bg-[#FAF8F2] transition-[transform,background-color,border-color] duration-250 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105 group-focus-within:scale-105 group-hover:border-[#10291C] group-focus-within:border-[#10291C] group-hover:bg-[#10291C] group-focus-within:bg-[#10291C] motion-reduce:transition-colors motion-reduce:group-hover:scale-100 motion-reduce:group-focus-within:scale-100">
-                    <ServiceIcon name={service.iconName} />
+                  <span className="services-card-icon-badge inline-flex h-11 w-11 items-center justify-center overflow-hidden rounded-xl border border-[#BBA98D]/45 bg-[#FAF8F2] transition-[transform,background-color,border-color] duration-250 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105 group-focus-within:scale-105 group-hover:border-[#10291C] group-focus-within:border-[#10291C] group-hover:bg-[#10291C] group-focus-within:bg-[#10291C] motion-reduce:transition-colors motion-reduce:group-hover:scale-100 motion-reduce:group-focus-within:scale-100">
+                    <span
+                      data-scroll-parallax="3.5"
+                      className="scroll-parallax-icon inline-flex items-center justify-center"
+                    >
+                      <ServiceIcon name={service.iconName} />
+                    </span>
                   </span>
                   <span className="font-mono text-xs font-medium tracking-wider tabular-nums text-[#10291C]/50 transition-colors duration-300 group-hover:text-[#298637]">
                     {service.number}

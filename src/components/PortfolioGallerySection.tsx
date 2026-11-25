@@ -368,16 +368,18 @@ export function PortfolioGallerySection({ onModalStateChange }: PortfolioGallery
                     zIndex: 20 - absDelta,
                     transition: prefersReducedMotion
                       ? 'opacity 180ms ease'
-                      : 'transform 520ms cubic-bezier(0.22, 1, 0.36, 1), opacity 420ms ease',
+                      : 'transform 520ms cubic-bezier(0.22, 1, 0.36, 1), scale 300ms cubic-bezier(0.22, 1, 0.36, 1), opacity 420ms ease',
                   }}
                   className={`group absolute w-[260px] overflow-hidden rounded-2xl border bg-[#0b1d13] text-left shadow-2xl sm:w-[320px] lg:w-[360px] ${
                     isCenter
-                      ? 'border-[#84C62B]/80 ring-1 ring-[#84C62B]/40'
+                      ? 'border-[#84C62B]/80 ring-1 ring-[#84C62B]/40 hover:scale-[1.03] motion-reduce:hover:scale-100'
                       : 'border-white/15 hover:border-white/35'
                   }`}
                 >
                   <div
                     data-scroll-reveal={revealCard['data-scroll-reveal']}
+                    data-scroll-parallax="10"
+                    data-parallax-scale="1.08"
                     className={`${revealCard.className} relative aspect-square w-full overflow-hidden`}
                   >
                     <img
@@ -389,7 +391,7 @@ export function PortfolioGallerySection({ onModalStateChange }: PortfolioGallery
                       height={photo.height}
                       loading="lazy"
                       decoding="async"
-                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                      className="scroll-parallax-media h-full w-full object-cover shadow-lg shadow-forest/20 transition-[scale] duration-500 group-hover:scale-[1.03]"
                     />
                     <div
                       aria-hidden="true"
@@ -526,6 +528,8 @@ export function PortfolioGallerySection({ onModalStateChange }: PortfolioGallery
                     key={`${activeCategory}-${photo.id}`}
                     type="button"
                     data-scroll-reveal={revealGridPhoto['data-scroll-reveal']}
+                    data-scroll-parallax="6"
+                    data-parallax-scale="1.08"
                     onClick={(event) => openLightbox(filteredGridPhotos, index, event.currentTarget)}
                     aria-label={`Ampliar trabalho ${photo.id}: ${photo.alt}`}
                     className={`${revealGridPhoto.className} group relative aspect-square overflow-hidden rounded-xl border border-white/10 bg-[#0b1d13] text-left transition-colors hover:border-[#84C62B]`}
@@ -537,7 +541,7 @@ export function PortfolioGallerySection({ onModalStateChange }: PortfolioGallery
                     height={photo.thumbHeight}
                     loading="lazy"
                     decoding="async"
-                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    className="scroll-parallax-media h-full w-full object-cover transition-[scale] duration-300 group-hover:scale-105"
                   />
                   <div
                     aria-hidden="true"

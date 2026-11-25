@@ -107,12 +107,43 @@
 }
 
 .faq-accordion-content {
-  transform: translateY(-4px);
-  transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 200ms ease,
+    transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .faq-accordion-panel[data-open="true"] .faq-accordion-content {
+  opacity: 1;
   transform: translateY(0);
+  transition:
+    opacity 280ms cubic-bezier(0.22, 1, 0.36, 1) 70ms,
+    transform 320ms cubic-bezier(0.22, 1, 0.36, 1) 70ms;
+}
+
+.faq-accordion-text {
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 180ms ease,
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.faq-accordion-panel[data-open="true"] .faq-accordion-text {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 320ms cubic-bezier(0.22, 1, 0.36, 1) 130ms,
+    transform 360ms cubic-bezier(0.22, 1, 0.36, 1) 130ms;
+}
+
+.faq-trigger-button:focus-visible {
+  outline: 2px solid #84C62B;
+  outline-offset: 2px;
+  box-shadow:
+    0 0 0 4px rgba(16, 41, 28, 0.28),
+    0 6px 20px -2px rgba(16, 41, 28, 0.34);
 }
 
 .social-card-underline::after {
@@ -979,6 +1010,17 @@
   --reveal-delay: 360ms;
 }
 
+/* Parallax sutil baseado em scroll para imagens e ícones de serviços */
+.scroll-parallax-media {
+  transform: translate3d(0, var(--scroll-parallax-y, 0px), 0) scale(var(--scroll-parallax-scale, 1.08));
+  will-change: transform;
+}
+
+.scroll-parallax-icon {
+  transform: translate3d(0, var(--scroll-parallax-y, 0px), 0);
+  will-change: transform;
+}
+
 .how-it-works-icon-badge {
   transition:
     scale 240ms cubic-bezier(0.22, 1, 0.36, 1),
@@ -1083,9 +1125,19 @@
 
   .faq-accordion-panel,
   .faq-accordion-panel[data-open="true"],
-  .faq-accordion-content {
+  .faq-accordion-content,
+  .faq-accordion-panel[data-open="true"] .faq-accordion-content,
+  .faq-accordion-text,
+  .faq-accordion-panel[data-open="true"] .faq-accordion-text,
+  .faq-trigger-button,
+  .faq-item-card {
     transition: none;
     transform: none;
+  }
+
+  .faq-accordion-content,
+  .faq-accordion-text {
+    opacity: 1;
   }
 
   .social-card-underline::after {
@@ -1214,6 +1266,12 @@
     opacity: 1;
     transform: none;
     transition: none;
+    will-change: auto;
+  }
+
+  .scroll-parallax-media,
+  .scroll-parallax-icon {
+    transform: none;
     will-change: auto;
   }
 

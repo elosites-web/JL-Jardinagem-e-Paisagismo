@@ -2,6 +2,7 @@ import { CheckCircle2, ClipboardCheck, Leaf, MapPin, type LucideIcon } from 'luc
 import { FAQ_ITEMS, PROCESS_STEPS } from '../data/faqAndProcess';
 import { scrollRevealDirectiveProps, type ScrollRevealDelayMs } from '../utils/scrollReveal';
 import { FaqAccordion } from './FaqAccordion';
+import { SectionWaveDivider } from './SectionWaveDivider';
 
 const PROCESS_STEP_ICONS: readonly LucideIcon[] = [
   Leaf,
@@ -19,8 +20,9 @@ const STEP_REVEAL_DELAYS: readonly (ScrollRevealDelayMs | undefined)[] = [
 
 export function HowItWorksAndFaqSection() {
   const revealProcessHeader = scrollRevealDirectiveProps();
-  const revealFaqIntro = scrollRevealDirectiveProps();
-  const revealFaqList = scrollRevealDirectiveProps(80);
+  const revealFaqSection = scrollRevealDirectiveProps();
+  const revealFaqIntro = scrollRevealDirectiveProps(80);
+  const revealFaqList = scrollRevealDirectiveProps(160);
 
   return (
     <>
@@ -28,9 +30,14 @@ export function HowItWorksAndFaqSection() {
       <section
         id="como-funciona"
         aria-labelledby="como-funciona-heading"
-        className="border-b border-[#BBA98D]/35 bg-[#F5F3E9] py-20 sm:py-24 lg:py-28"
+        className="border-b border-[#BBA98D]/35 bg-[#F5F3E9] pt-6 pb-20 sm:pt-8 sm:pb-24 lg:pt-10 lg:pb-28"
       >
-        <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-10">
+        <SectionWaveDivider
+          testId="como-funciona-wave-divider"
+          backgroundClassName="bg-[#F5F3E9]"
+          anchorTargetIds={['como-funciona', 'duvidas']}
+        />
+        <div className="mx-auto max-w-[1280px] px-4 pt-10 sm:px-6 sm:pt-12 lg:px-10 lg:pt-14">
           <div
             data-scroll-reveal={revealProcessHeader['data-scroll-reveal']}
             className={`${revealProcessHeader.className} max-w-2xl`}
@@ -88,7 +95,10 @@ export function HowItWorksAndFaqSection() {
         aria-labelledby="duvidas-heading"
         className="border-b border-[#BBA98D]/35 bg-[#FAF8F2] py-20 sm:py-24 lg:py-28"
       >
-        <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-10">
+        <div
+          data-scroll-reveal={revealFaqSection['data-scroll-reveal']}
+          className={`${revealFaqSection.className} mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-10`}
+        >
           <div className="grid gap-12 lg:grid-cols-12">
             <div
               data-scroll-reveal={revealFaqIntro['data-scroll-reveal']}

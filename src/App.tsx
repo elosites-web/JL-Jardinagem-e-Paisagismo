@@ -13,6 +13,7 @@ import { SectionWaveDivider } from './components/SectionWaveDivider';
 import { ServicesSection } from './components/ServicesSection';
 import { VisitRequestSection } from './components/VisitRequestSection';
 import type { LegalDocKey } from './data/legalDocs';
+import { useScrollParallaxDirective } from './hooks/useScrollParallaxDirective';
 import { useScrollRevealDirective } from './hooks/useScrollRevealDirective';
 import { extractInternalAnchorId, navigateToAnchorId } from './utils/anchorNavigation';
 
@@ -23,6 +24,7 @@ export default function App() {
   const [consentModalOpen, setConsentModalOpen] = useState(false);
 
   useScrollRevealDirective();
+  useScrollParallaxDirective();
 
   const isAnyOverlayOpen =
     mobileMenuOpen || galleryModalOpen || activeLegalDoc !== null || consentModalOpen;

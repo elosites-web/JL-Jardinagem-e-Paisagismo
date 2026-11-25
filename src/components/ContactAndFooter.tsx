@@ -6,6 +6,7 @@ import { buildGeneralWhatsAppUrl } from '../utils/whatsapp';
 import { hasActiveNonEssentialTracking } from '../utils/consent';
 import { scrollRevealDirectiveProps } from '../utils/scrollReveal';
 import { InstagramIcon, WhatsAppIcon } from './Icons';
+import { SectionWaveDivider } from './SectionWaveDivider';
 
 interface ContactAndFooterProps {
   onOpenLegalDoc: (doc: LegalDocKey) => void;
@@ -28,9 +29,14 @@ export function ContactAndFooter({
       <section
         id="contato"
         aria-labelledby="contato-heading"
-        className="bg-[#FAF8F2] py-20 sm:py-24 lg:py-28"
+        className="bg-[#FAF8F2] pt-6 pb-20 sm:pt-8 sm:pb-24 lg:pt-10 lg:pb-28"
       >
-        <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-10">
+        <SectionWaveDivider
+          testId="contato-wave-divider"
+          backgroundClassName="bg-[#FAF8F2]"
+          anchorTargetIds={['contato']}
+        />
+        <div className="mx-auto max-w-[1280px] px-4 pt-10 sm:px-6 sm:pt-12 lg:px-10 lg:pt-14">
           <div className="grid items-start gap-12 lg:grid-cols-12">
             <div data-scroll-reveal={revealLeft['data-scroll-reveal']} className={`${revealLeft.className} lg:col-span-6`}>
               <p className="text-xs font-semibold tracking-[0.18em] uppercase text-[#298637]">
@@ -171,7 +177,7 @@ export function ContactAndFooter({
       </section>
 
       {/* Rodapé escuro com identidade preservada, dados empresariais provisórios identificados e documentos jurídicos */}
-      <footer className="bg-[#10291C] py-14 text-[#F5F3E9] pb-[calc(6rem+var(--anchor-bottom-compensation,0px))] sm:pb-[calc(4rem+var(--anchor-bottom-compensation,0px))]">
+      <footer className="bg-[#10291C] pt-14 text-[#F5F3E9] pb-[calc(9.5rem+var(--anchor-bottom-compensation,0px))] sm:pb-[calc(10rem+var(--anchor-bottom-compensation,0px))]">
         <div
           data-scroll-reveal={revealFooter['data-scroll-reveal']}
           className={`${revealFooter.className} mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-10`}
