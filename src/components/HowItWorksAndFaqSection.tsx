@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
-import { CheckCircle2, ChevronDown, ClipboardCheck, Leaf, MapPin, type LucideIcon } from 'lucide-react';
+import { CheckCircle2, ClipboardCheck, Leaf, MapPin, type LucideIcon } from 'lucide-react';
 import { FAQ_ITEMS, PROCESS_STEPS } from '../data/faqAndProcess';
 import { scrollRevealDirectiveProps } from '../utils/scrollReveal';
+import { FaqAccordion } from './FaqAccordion';
 
 const PROCESS_STEP_ICONS: readonly LucideIcon[] = [
   Leaf,
@@ -18,7 +19,6 @@ const STEP_FADE_DELAY_CLASSES = [
 ] as const;
 
 export function HowItWorksAndFaqSection() {
-  const [openFaqId, setOpenFaqId] = useState<string | null>(FAQ_ITEMS[0].id);
   const revealProcessHeader = scrollRevealDirectiveProps();
   const revealFaqIntro = scrollRevealDirectiveProps();
   const revealFaqList = scrollRevealDirectiveProps(80);
@@ -141,41 +141,9 @@ export function HowItWorksAndFaqSection() {
 
             <div
               data-scroll-reveal={revealFaqList['data-scroll-reveal']}
-              className={`${revealFaqList.className} divide-y divide-[#BBA98D]/45 border-y border-[#BBA98D]/45 lg:col-span-7`}
+              className={`${revealFaqList.className} lg:col-span-7`}
             >
-              {FAQ_ITEMS.map((item) => {
-                const isExpanded = openFaqId === item.id;
-                const panelId = `faq-panel-${item.id}`;
-                return (
-                  <div key={item.id}>
-                    <h3>
-                      <button
-                        type="button"
-                        aria-expanded={isExpanded}
-                        aria-controls={panelId}
-                        onClick={() => setOpenFaqId(isExpanded ? null : item.id)}
-                        className="flex min-h-[56px] w-full items-center justify-between gap-4 py-5 text-left text-base font-semibold text-[#10291C] transition-colors hover:text-[#298637] sm:text-lg"
-                      >
-                        <span>{item.question}</span>
-                        <ChevronDown
-                          aria-hidden="true"
-                          className={`h-5 w-5 shrink-0 text-[#298637] transition-transform duration-200 ${
-                            isExpanded ? 'rotate-180' : ''
-                          }`}
-                        />
-                      </button>
-                    </h3>
-                    {isExpanded && (
-                      <div
-                        id={panelId}
-                        className="pb-5 pr-8 text-sm leading-relaxed text-[#10291C]/80 sm:text-base"
-                      >
-                        {item.answer}
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
+              <FaqAccordion items={FAQ_ITEMS} defaultOpenId={FAQ_ITEMS[0].id} />
             </div>
           </div>
         </div>

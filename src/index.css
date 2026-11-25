@@ -80,6 +80,148 @@
   will-change: transform, opacity;
 }
 
+.faq-accordion-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    grid-template-rows 340ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 240ms ease,
+    visibility 0s linear 340ms;
+}
+
+.faq-accordion-panel[data-open="true"] {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  visibility: visible;
+  transition:
+    grid-template-rows 340ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 280ms ease 60ms,
+    visibility 0s linear 0s;
+}
+
+.faq-accordion-inner {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.faq-accordion-content {
+  transform: translateY(-4px);
+  transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.faq-accordion-panel[data-open="true"] .faq-accordion-content {
+  transform: translateY(0);
+}
+
+.social-card-underline::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 3px;
+  background-color: #84C62B;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+.social-card-underline:hover::after,
+.social-card-underline:focus-visible::after {
+  transform: scaleX(1);
+}
+
+#formulario-visita .visit-field-shell {
+  position: relative;
+}
+
+#formulario-visita .visit-field-shell::after {
+  content: "";
+  position: absolute;
+  left: 2px;
+  right: 2px;
+  bottom: 0;
+  height: 3px;
+  border-radius: 0 0 0.45rem 0.45rem;
+  background-color: #84C62B;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+#formulario-visita .visit-field-shell:focus-within::after {
+  transform: scaleX(1);
+}
+
+.wave-divider-draw-path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1150ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: stroke-dashoffset;
+}
+
+.wave-divider-draw-path[data-drawn="true"] {
+  stroke-dashoffset: 0;
+}
+
+.wave-divider-parallax {
+  transform: translate3d(
+    var(--wave-parallax-x, 0px),
+    var(--wave-parallax-y, 0px),
+    0
+  ) scale(1.025);
+  transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+@keyframes waveOrganicSprout {
+  0% {
+    opacity: 0;
+    transform: scale(0.86, 0.25);
+  }
+  58% {
+    opacity: 1;
+    transform: scale(1.012, 1.14);
+  }
+  82% {
+    opacity: 1;
+    transform: scale(0.996, 0.97);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1, 1);
+  }
+}
+
+.wave-divider-parallax > path {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.wave-divider-parallax[data-sprouted="false"] > path {
+  opacity: 0;
+  transform: scale(0.86, 0.25);
+}
+
+.wave-divider-parallax[data-sprouted="true"] > path:nth-of-type(1) {
+  animation: waveOrganicSprout 760ms cubic-bezier(0.22, 1, 0.36, 1) 0ms both;
+}
+
+.wave-divider-parallax[data-sprouted="true"] > path:nth-of-type(2) {
+  animation: waveOrganicSprout 800ms cubic-bezier(0.22, 1, 0.36, 1) 60ms both;
+}
+
+.wave-divider-parallax[data-sprouted="true"] > path:nth-of-type(3) {
+  animation: waveOrganicSprout 820ms cubic-bezier(0.22, 1, 0.36, 1) 110ms both;
+}
+
+.wave-divider-parallax[data-sprouted="true"] > path:nth-of-type(4) {
+  animation: waveOrganicSprout 840ms cubic-bezier(0.22, 1, 0.36, 1) 170ms both;
+}
+
 @keyframes subtleWhatsAppPulse {
   0%, 100% {
     box-shadow: 0 10px 25px -5px rgba(16, 41, 28, 0.28), 0 0 0 0 rgba(16, 41, 28, 0.24);
@@ -615,6 +757,43 @@
 
   .reading-progress-tip {
     transition: none;
+  }
+
+  .faq-accordion-panel,
+  .faq-accordion-panel[data-open="true"],
+  .faq-accordion-content {
+    transition: none;
+    transform: none;
+  }
+
+  .social-card-underline::after {
+    transition: none;
+  }
+
+  #formulario-visita .visit-field-shell::after {
+    transition: none;
+  }
+
+  .wave-divider-draw-path {
+    stroke-dashoffset: 0;
+    opacity: 1;
+    transition: none;
+    will-change: auto;
+  }
+
+  .wave-divider-parallax {
+    transform: none;
+    transition: none;
+    will-change: auto;
+  }
+
+  .wave-divider-parallax > path,
+  .wave-divider-parallax[data-sprouted="false"] > path,
+  .wave-divider-parallax[data-sprouted="true"] > path,
+  .wave-divider-parallax[data-sprouted="true"] > path:nth-of-type(n) {
+    opacity: 1;
+    transform: none;
+    animation: none;
   }
 
   .whatsapp-floating-cta:focus,

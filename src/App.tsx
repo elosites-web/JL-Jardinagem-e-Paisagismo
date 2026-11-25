@@ -9,6 +9,7 @@ import { HeroSection } from './components/HeroSection';
 import { HowItWorksAndFaqSection } from './components/HowItWorksAndFaqSection';
 import { LegalModal } from './components/LegalModal';
 import { PortfolioGallerySection } from './components/PortfolioGallerySection';
+import { SectionWaveDivider } from './components/SectionWaveDivider';
 import { ServicesSection } from './components/ServicesSection';
 import { VisitRequestSection } from './components/VisitRequestSection';
 import type { LegalDocKey } from './data/legalDocs';
@@ -99,6 +100,7 @@ export default function App() {
       <main id="conteudo-principal">
         <HeroSection />
         <AboutSection />
+        <SectionWaveDivider />
         <ServicesSection />
         <PortfolioGallerySection onModalStateChange={setGalleryModalOpen} />
         <BeforeAfterSection />
