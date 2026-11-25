@@ -10,7 +10,7 @@ export function AboutSection() {
     <section
       id="sobre"
       aria-labelledby="sobre-heading"
-      className="bg-[#F5F3E9] pt-20 pb-12 sm:pt-24 sm:pb-14 lg:pt-28 lg:pb-16"
+      className="border-b border-[#BBA98D]/35 bg-[#F5F3E9] py-20 sm:py-24 lg:py-28"
     >
       <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-10">
         <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-16">

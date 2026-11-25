@@ -270,23 +270,21 @@ export function VisitRequestSection({ onOpenLegalDoc }: VisitRequestSectionProps
                     <User className="h-4 w-4 text-[#298637]" aria-hidden="true" />
                     <span>Nome completo *</span>
                   </label>
-                  <div className="visit-field-shell mt-2">
-                    <input
-                      ref={fullNameInputRef}
-                      id="visit-full-name"
-                      name="fullName"
-                      type="text"
-                      inputMode="text"
-                      autoComplete="name"
-                      maxLength={VISIT_FIELD_LIMITS.fullName}
-                      value={form.fullName}
-                      onChange={(event) => updateField('fullName', event.target.value)}
-                      aria-invalid={Boolean(errors.fullName)}
-                      aria-describedby={errors.fullName ? 'error-full-name' : undefined}
-                      placeholder="Como prefere ser chamado(a)"
-                      className="block w-full rounded-lg border border-[#BBA98D]/60 bg-white px-4 py-3 text-sm text-[#10291C] placeholder:text-[#10291C]/45 focus:border-[#298637]"
-                    />
-                  </div>
+                  <input
+                    ref={fullNameInputRef}
+                    id="visit-full-name"
+                    name="fullName"
+                    type="text"
+                    inputMode="text"
+                    autoComplete="name"
+                    maxLength={VISIT_FIELD_LIMITS.fullName}
+                    value={form.fullName}
+                    onChange={(event) => updateField('fullName', event.target.value)}
+                    aria-invalid={Boolean(errors.fullName)}
+                    aria-describedby={errors.fullName ? 'error-full-name' : undefined}
+                    placeholder="Como prefere ser chamado(a)"
+                    className="mt-2 w-full rounded-lg border border-[#BBA98D]/60 bg-white px-4 py-3 text-sm text-[#10291C] placeholder:text-[#10291C]/45 focus:border-[#298637]"
+                  />
                   {errors.fullName && (
                     <p id="error-full-name" className="mt-1.5 text-xs font-medium text-[#9e2a2b]">
                       {errors.fullName}
@@ -303,24 +301,22 @@ export function VisitRequestSection({ onOpenLegalDoc }: VisitRequestSectionProps
                     <Phone className="h-4 w-4 text-[#298637]" aria-hidden="true" />
                     <span>Telefone / WhatsApp (opcional)</span>
                   </label>
-                  <div className="visit-field-shell mt-2">
-                    <input
-                      id="visit-phone"
-                      name="phone"
-                      type="tel"
-                      inputMode="tel"
-                      autoComplete="tel"
-                      maxLength={20}
-                      value={form.phone}
-                      onChange={(event) =>
-                        updateField('phone', formatBrazilianPhone(event.target.value))
-                      }
-                      aria-invalid={Boolean(errors.phone)}
-                      aria-describedby={errors.phone ? 'error-phone' : 'help-phone'}
-                      placeholder="(11) 99999-9999"
-                      className="block w-full rounded-lg border border-[#BBA98D]/60 bg-white px-4 py-3 text-sm text-[#10291C] placeholder:text-[#10291C]/45 focus:border-[#298637]"
-                    />
-                  </div>
+                  <input
+                    id="visit-phone"
+                    name="phone"
+                    type="tel"
+                    inputMode="tel"
+                    autoComplete="tel"
+                    maxLength={20}
+                    value={form.phone}
+                    onChange={(event) =>
+                      updateField('phone', formatBrazilianPhone(event.target.value))
+                    }
+                    aria-invalid={Boolean(errors.phone)}
+                    aria-describedby={errors.phone ? 'error-phone' : 'help-phone'}
+                    placeholder="(11) 99999-9999"
+                    className="mt-2 w-full rounded-lg border border-[#BBA98D]/60 bg-white px-4 py-3 text-sm text-[#10291C] placeholder:text-[#10291C]/45 focus:border-[#298637]"
+                  />
                   <p id="help-phone" className="mt-1 text-xs text-[#10291C]/65">
                     Opcional — como o envio será feito pelo seu próprio WhatsApp, informe apenas se
                     desejar registrar outro número para retorno.
@@ -341,22 +337,20 @@ export function VisitRequestSection({ onOpenLegalDoc }: VisitRequestSectionProps
                     <MapPin className="h-4 w-4 text-[#298637]" aria-hidden="true" />
                     <span>Cidade *</span>
                   </label>
-                  <div className="visit-field-shell mt-2">
-                    <input
-                      id="visit-city"
-                      name="city"
-                      type="text"
-                      inputMode="text"
-                      autoComplete="address-level2"
-                      maxLength={VISIT_FIELD_LIMITS.city}
-                      value={form.city}
-                      onChange={(event) => updateField('city', event.target.value)}
-                      aria-invalid={Boolean(errors.city)}
-                      aria-describedby={errors.city ? 'error-city' : undefined}
-                      placeholder="Ex.: Jundiaí"
-                      className="block w-full rounded-lg border border-[#BBA98D]/60 bg-white px-4 py-3 text-sm text-[#10291C] placeholder:text-[#10291C]/45 focus:border-[#298637]"
-                    />
-                  </div>
+                  <input
+                    id="visit-city"
+                    name="city"
+                    type="text"
+                    inputMode="text"
+                    autoComplete="address-level2"
+                    maxLength={VISIT_FIELD_LIMITS.city}
+                    value={form.city}
+                    onChange={(event) => updateField('city', event.target.value)}
+                    aria-invalid={Boolean(errors.city)}
+                    aria-describedby={errors.city ? 'error-city' : undefined}
+                    placeholder="Ex.: Jundiaí"
+                    className="mt-2 w-full rounded-lg border border-[#BBA98D]/60 bg-white px-4 py-3 text-sm text-[#10291C] placeholder:text-[#10291C]/45 focus:border-[#298637]"
+                  />
                   {errors.city && (
                     <p id="error-city" className="mt-1.5 text-xs font-medium text-[#9e2a2b]">
                       {errors.city}
@@ -373,22 +367,20 @@ export function VisitRequestSection({ onOpenLegalDoc }: VisitRequestSectionProps
                     <MapPin className="h-4 w-4 text-[#298637]" aria-hidden="true" />
                     <span>Bairro *</span>
                   </label>
-                  <div className="visit-field-shell mt-2">
-                    <input
-                      id="visit-neighborhood"
-                      name="neighborhood"
-                      type="text"
-                      inputMode="text"
-                      autoComplete="address-level3"
-                      maxLength={VISIT_FIELD_LIMITS.neighborhood}
-                      value={form.neighborhood}
-                      onChange={(event) => updateField('neighborhood', event.target.value)}
-                      aria-invalid={Boolean(errors.neighborhood)}
-                      aria-describedby={errors.neighborhood ? 'error-neighborhood' : undefined}
-                      placeholder="Bairro aproximado (não informe rua/número)"
-                      className="block w-full rounded-lg border border-[#BBA98D]/60 bg-white px-4 py-3 text-sm text-[#10291C] placeholder:text-[#10291C]/45 focus:border-[#298637]"
-                    />
-                  </div>
+                  <input
+                    id="visit-neighborhood"
+                    name="neighborhood"
+                    type="text"
+                    inputMode="text"
+                    autoComplete="address-level3"
+                    maxLength={VISIT_FIELD_LIMITS.neighborhood}
+                    value={form.neighborhood}
+                    onChange={(event) => updateField('neighborhood', event.target.value)}
+                    aria-invalid={Boolean(errors.neighborhood)}
+                    aria-describedby={errors.neighborhood ? 'error-neighborhood' : undefined}
+                    placeholder="Bairro aproximado (não informe rua/número)"
+                    className="mt-2 w-full rounded-lg border border-[#BBA98D]/60 bg-white px-4 py-3 text-sm text-[#10291C] placeholder:text-[#10291C]/45 focus:border-[#298637]"
+                  />
                   {errors.neighborhood && (
                     <p id="error-neighborhood" className="mt-1.5 text-xs font-medium text-[#9e2a2b]">
                       {errors.neighborhood}
@@ -405,26 +397,24 @@ export function VisitRequestSection({ onOpenLegalDoc }: VisitRequestSectionProps
                     <Home className="h-4 w-4 text-[#298637]" aria-hidden="true" />
                     <span>Tipo de imóvel *</span>
                   </label>
-                  <div className="visit-field-shell mt-2">
-                    <select
-                      id="visit-property-type"
-                      name="propertyType"
-                      value={form.propertyType}
-                      onChange={(event) =>
-                        updateField('propertyType', event.target.value as PropertyType | '')
-                      }
-                      aria-invalid={Boolean(errors.propertyType)}
-                      aria-describedby={errors.propertyType ? 'error-property-type' : undefined}
-                      className="block w-full rounded-lg border border-[#BBA98D]/60 bg-white px-4 py-3 text-sm text-[#10291C] focus:border-[#298637]"
-                    >
-                      <option value="">Selecione uma opção</option>
-                      {(Object.keys(PROPERTY_TYPE_LABELS) as PropertyType[]).map((key) => (
-                        <option key={key} value={key}>
-                          {PROPERTY_TYPE_LABELS[key]}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                  <select
+                    id="visit-property-type"
+                    name="propertyType"
+                    value={form.propertyType}
+                    onChange={(event) =>
+                      updateField('propertyType', event.target.value as PropertyType | '')
+                    }
+                    aria-invalid={Boolean(errors.propertyType)}
+                    aria-describedby={errors.propertyType ? 'error-property-type' : undefined}
+                    className="mt-2 w-full rounded-lg border border-[#BBA98D]/60 bg-white px-4 py-3 text-sm text-[#10291C] focus:border-[#298637]"
+                  >
+                    <option value="">Selecione uma opção</option>
+                    {(Object.keys(PROPERTY_TYPE_LABELS) as PropertyType[]).map((key) => (
+                      <option key={key} value={key}>
+                        {PROPERTY_TYPE_LABELS[key]}
+                      </option>
+                    ))}
+                  </select>
                   {errors.propertyType && (
                     <p id="error-property-type" className="mt-1.5 text-xs font-medium text-[#9e2a2b]">
                       {errors.propertyType}
@@ -479,19 +469,17 @@ export function VisitRequestSection({ onOpenLegalDoc }: VisitRequestSectionProps
                     <Calendar className="h-4 w-4 text-[#298637]" aria-hidden="true" />
                     <span>Data de preferência *</span>
                   </label>
-                  <div className="visit-field-shell mt-2">
-                    <input
-                      id="visit-date"
-                      name="preferredDate"
-                      type="date"
-                      min={todayIso}
-                      value={form.preferredDate}
-                      onChange={(event) => updateField('preferredDate', event.target.value)}
-                      aria-invalid={Boolean(errors.preferredDate)}
-                      aria-describedby={errors.preferredDate ? 'error-date' : undefined}
-                      className="block w-full rounded-lg border border-[#BBA98D]/60 bg-white px-4 py-3 text-sm text-[#10291C] focus:border-[#298637]"
-                    />
-                  </div>
+                  <input
+                    id="visit-date"
+                    name="preferredDate"
+                    type="date"
+                    min={todayIso}
+                    value={form.preferredDate}
+                    onChange={(event) => updateField('preferredDate', event.target.value)}
+                    aria-invalid={Boolean(errors.preferredDate)}
+                    aria-describedby={errors.preferredDate ? 'error-date' : undefined}
+                    className="mt-2 w-full rounded-lg border border-[#BBA98D]/60 bg-white px-4 py-3 text-sm text-[#10291C] focus:border-[#298637]"
+                  />
                   {errors.preferredDate && (
                     <p id="error-date" className="mt-1.5 text-xs font-medium text-[#9e2a2b]">
                       {errors.preferredDate}
@@ -508,26 +496,24 @@ export function VisitRequestSection({ onOpenLegalDoc }: VisitRequestSectionProps
                     <Clock className="h-4 w-4 text-[#298637]" aria-hidden="true" />
                     <span>Período de preferência *</span>
                   </label>
-                  <div className="visit-field-shell mt-2">
-                    <select
-                      id="visit-period"
-                      name="preferredPeriod"
-                      value={form.preferredPeriod}
-                      onChange={(event) =>
-                        updateField('preferredPeriod', event.target.value as VisitPeriod | '')
-                      }
-                      aria-invalid={Boolean(errors.preferredPeriod)}
-                      aria-describedby={errors.preferredPeriod ? 'error-period' : undefined}
-                      className="block w-full rounded-lg border border-[#BBA98D]/60 bg-white px-4 py-3 text-sm text-[#10291C] focus:border-[#298637]"
-                    >
-                      <option value="">Selecione um período</option>
-                      {(Object.keys(VISIT_PERIOD_LABELS) as VisitPeriod[]).map((key) => (
-                        <option key={key} value={key}>
-                          {VISIT_PERIOD_LABELS[key]}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                  <select
+                    id="visit-period"
+                    name="preferredPeriod"
+                    value={form.preferredPeriod}
+                    onChange={(event) =>
+                      updateField('preferredPeriod', event.target.value as VisitPeriod | '')
+                    }
+                    aria-invalid={Boolean(errors.preferredPeriod)}
+                    aria-describedby={errors.preferredPeriod ? 'error-period' : undefined}
+                    className="mt-2 w-full rounded-lg border border-[#BBA98D]/60 bg-white px-4 py-3 text-sm text-[#10291C] focus:border-[#298637]"
+                  >
+                    <option value="">Selecione um período</option>
+                    {(Object.keys(VISIT_PERIOD_LABELS) as VisitPeriod[]).map((key) => (
+                      <option key={key} value={key}>
+                        {VISIT_PERIOD_LABELS[key]}
+                      </option>
+                    ))}
+                  </select>
                   {errors.preferredPeriod && (
                     <p id="error-period" className="mt-1.5 text-xs font-medium text-[#9e2a2b]">
                       {errors.preferredPeriod}
@@ -545,18 +531,16 @@ export function VisitRequestSection({ onOpenLegalDoc }: VisitRequestSectionProps
                       {form.notes.length}/{VISIT_FIELD_LIMITS.notes}
                     </span>
                   </div>
-                  <div className="visit-field-shell mt-2">
-                    <textarea
-                      id="visit-notes"
-                      name="notes"
-                      rows={3}
-                      maxLength={VISIT_FIELD_LIMITS.notes}
-                      value={form.notes}
-                      onChange={(event) => updateField('notes', event.target.value)}
-                      placeholder="Ex.: tamanho aproximado da área, presença de vegetação alta ou detalhes que ajudem na visita."
-                      className="block w-full rounded-lg border border-[#BBA98D]/60 bg-white px-4 py-3 text-sm text-[#10291C] placeholder:text-[#10291C]/45 focus:border-[#298637]"
-                    />
-                  </div>
+                  <textarea
+                    id="visit-notes"
+                    name="notes"
+                    rows={3}
+                    maxLength={VISIT_FIELD_LIMITS.notes}
+                    value={form.notes}
+                    onChange={(event) => updateField('notes', event.target.value)}
+                    placeholder="Ex.: tamanho aproximado da área, presença de vegetação alta ou detalhes que ajudem na visita."
+                    className="mt-2 w-full rounded-lg border border-[#BBA98D]/60 bg-white px-4 py-3 text-sm text-[#10291C] placeholder:text-[#10291C]/45 focus:border-[#298637]"
+                  />
                   {errors.notes && (
                     <p className="mt-1.5 text-xs font-medium text-[#9e2a2b]">{errors.notes}</p>
                   )}

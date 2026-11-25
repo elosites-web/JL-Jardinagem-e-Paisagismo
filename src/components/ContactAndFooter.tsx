@@ -79,7 +79,7 @@ export function ContactAndFooter({
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="social-card-underline relative flex items-center justify-between gap-4 overflow-hidden rounded-2xl border border-[#BBA98D]/45 bg-[#F5F3E9] p-5 transition-colors hover:border-[#298637]"
+                className="flex items-center justify-between gap-4 rounded-2xl border border-[#BBA98D]/45 bg-[#F5F3E9] p-5 transition-colors hover:border-[#298637]"
               >
                 <div className="flex items-center gap-4">
                   <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#10291C] text-[#84C62B]">
@@ -101,7 +101,7 @@ export function ContactAndFooter({
                 href={COMPANY.instagram.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="social-card-underline relative flex items-center justify-between gap-4 overflow-hidden rounded-2xl border border-[#BBA98D]/45 bg-[#F5F3E9] p-5 transition-colors hover:border-[#298637]"
+                className="flex items-center justify-between gap-4 rounded-2xl border border-[#BBA98D]/45 bg-[#F5F3E9] p-5 transition-colors hover:border-[#298637]"
               >
                 <div className="flex items-center gap-4 min-w-0">
                   <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#10291C] text-[#84C62B]">
