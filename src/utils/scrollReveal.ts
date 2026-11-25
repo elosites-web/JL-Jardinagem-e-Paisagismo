@@ -75,6 +75,14 @@ const GALLERY_GRID_STAGGER_DELAYS: readonly (ScrollRevealDelayMs | undefined)[] 
   320,
 ];
 
+const FOOTER_LIST_STAGGER_DELAYS: readonly ScrollRevealDelayMs[] = [
+  80,
+  160,
+  240,
+  320,
+  360,
+];
+
 export function getCoverflowRevealDelay(absDelta: number): ScrollRevealDelayMs | undefined {
   const clamped = Math.max(0, Math.min(COVERFLOW_STAGGER_DELAYS.length - 1, Math.floor(absDelta)));
   return COVERFLOW_STAGGER_DELAYS[clamped];
@@ -83,4 +91,11 @@ export function getCoverflowRevealDelay(absDelta: number): ScrollRevealDelayMs |
 export function getGalleryGridRevealDelay(index: number): ScrollRevealDelayMs | undefined {
   const safeIndex = Math.max(0, Math.floor(index));
   return GALLERY_GRID_STAGGER_DELAYS[safeIndex % GALLERY_GRID_STAGGER_DELAYS.length];
+}
+
+export function getFooterListItemRevealDelay(index: number): ScrollRevealDelayMs {
+  const safeIndex = Math.max(0, Math.floor(index));
+  return FOOTER_LIST_STAGGER_DELAYS[
+    Math.min(safeIndex, FOOTER_LIST_STAGGER_DELAYS.length - 1)
+  ];
 }

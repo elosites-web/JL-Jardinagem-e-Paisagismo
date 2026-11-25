@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ArrowUp } from 'lucide-react';
+import { shouldShowBackToTop } from '../utils/backToTop';
 import { buildGeneralWhatsAppUrl } from '../utils/whatsapp';
 import { WhatsAppIcon } from './Icons';
 
@@ -20,12 +21,32 @@ export function FloatingActions({ hideFloatingButtons }: FloatingActionsProps) {
   }, []);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setShowBackToTop(window.scrollY > 560);
+    let rafId = 0;
+
+    const syncBackToTop = () => {
+      rafId = 0;
+      const nextVisible = shouldShowBackToTop({
+        scrollY: window.scrollY,
+        viewportWidth: window.innerWidth,
+      });
+      setShowBackToTop((prev) => (prev === nextVisible ? prev : nextVisible));
     };
-    handleScroll();
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    const scheduleSync = () => {
+      if (rafId !== 0) return;
+      rafId = window.requestAnimationFrame(syncBackToTop);
+    };
+
+    syncBackToTop();
+    window.addEventListener('scroll', scheduleSync, { passive: true });
+    window.addEventListener('resize', scheduleSync, { passive: true });
+    return () => {
+      if (rafId !== 0) {
+        window.cancelAnimationFrame(rafId);
+      }
+      window.removeEventListener('scroll', scheduleSync);
+      window.removeEventListener('resize', scheduleSync);
+    };
   }, []);
 
   if (hideFloatingButtons) {
@@ -36,19 +57,23 @@ export function FloatingActions({ hideFloatingButtons }: FloatingActionsProps) {
 
   return (
     <div className="pointer-events-none fixed right-4 bottom-4 z-30 flex flex-col items-end gap-3 sm:right-6 sm:bottom-6">
-      {showBackToTop && (
-        <button
-          type="button"
-          onClick={() => {
-            const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' });
-          }}
-          aria-label="Voltar ao topo da página"
-          className="pointer-events-auto inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#BBA98D]/60 bg-[#F5F3E9]/95 text-[#10291C] shadow-md backdrop-blur-sm transition-colors hover:border-[#298637] hover:bg-white"
-        >
-          <ArrowUp className="h-4 w-4" aria-hidden="true" />
-        </button>
-      )}
+      <button
+        type="button"
+        data-visible={showBackToTop ? 'true' : 'false'}
+        aria-hidden={!showBackToTop}
+        tabIndex={showBackToTop ? 0 : -1}
+        onClick={() => {
+          const reduced =
+            typeof window.matchMedia === 'function' &&
+            window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' });
+        }}
+        title="Voltar ao topo"
+        aria-label="Voltar ao topo da página"
+        className="back-to-top-button inline-flex h-12 w-12 items-center justify-center rounded-full border border-[#BBA98D]/65 bg-[#F5F3E9]/95 text-[#10291C] shadow-lg backdrop-blur-sm hover:border-[#298637] hover:bg-white hover:text-[#298637] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#84C62B] focus-visible:ring-offset-2 sm:h-11 sm:w-11"
+      >
+        <ArrowUp className="h-4.5 w-4.5 sm:h-4 sm:w-4" aria-hidden="true" />
+      </button>
 
       {showWhatsAppAfterDelay && (
         <a

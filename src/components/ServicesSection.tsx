@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { motion, MotionConfig } from 'motion/react';
 import {
   Sprout,
   Route,
@@ -13,6 +15,10 @@ import {
 } from 'lucide-react';
 import { SERVICES_LIST, type ServiceItem } from '../data/services';
 import { scrollRevealDirectiveProps } from '../utils/scrollReveal';
+import {
+  SERVICE_ICON_SPRING,
+  getServiceIconMotionTarget,
+} from '../utils/serviceIconMotion';
 import { buildServiceWhatsAppUrl } from '../utils/whatsapp';
 import { WhatsAppIcon } from './Icons';
 
@@ -27,18 +33,39 @@ const SERVICE_ICONS: Record<ServiceItem['iconName'], LucideIcon> = {
   shovel: Shovel,
 };
 
-function ServiceIcon({ name }: { name: ServiceItem['iconName'] }) {
+function ServiceIcon({
+  name,
+  isActive,
+}: {
+  name: ServiceItem['iconName'];
+  isActive: boolean;
+}) {
   const Icon = SERVICE_ICONS[name];
+  const targetPose = getServiceIconMotionTarget(name, isActive);
+  const hoverPose = getServiceIconMotionTarget(name, true);
+
   return (
-    <Icon
-      className="services-card-icon-svg h-[19px] w-[19px] text-[#298637] transition-[transform,color] duration-250 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-110 group-focus-within:scale-110 group-hover:text-[#84C62B] group-focus-within:text-[#84C62B] motion-reduce:transition-colors motion-reduce:group-hover:scale-100 motion-reduce:group-focus-within:scale-100"
-      strokeWidth={1.5}
-      aria-hidden="true"
-    />
+    <motion.span
+      data-service-icon={name}
+      data-icon-active={isActive ? 'true' : 'false'}
+      initial={false}
+      animate={targetPose}
+      whileHover={hoverPose}
+      transition={SERVICE_ICON_SPRING}
+      className="inline-flex origin-center items-center justify-center will-change-transform"
+    >
+      <Icon
+        className="services-card-icon-svg h-[19px] w-[19px] text-[#298637] transition-colors duration-250 group-hover:text-[#84C62B] group-focus-within:text-[#84C62B]"
+        strokeWidth={1.5}
+        aria-hidden="true"
+      />
+    </motion.span>
   );
 }
 
 export function ServicesSection() {
+  const [hoveredServiceId, setHoveredServiceId] = useState<string | null>(null);
+  const [focusedServiceId, setFocusedServiceId] = useState<string | null>(null);
   const revealHeader = scrollRevealDirectiveProps();
   const revealGrid = scrollRevealDirectiveProps(80);
   const revealNote = scrollRevealDirectiveProps(160);
@@ -97,37 +124,50 @@ export function ServicesSection() {
           </a>
         </div>
 
-        <div
-          data-scroll-reveal={revealGrid['data-scroll-reveal']}
-          className={`${revealGrid.className} services-grid-glow mt-12 grid gap-px rounded-2xl border border-[#BBA98D]/45 bg-[#BBA98D]/35 sm:grid-cols-2 lg:grid-cols-4`}
-        >
-          {SERVICES_LIST.map((service, index) => {
-            const cornerClass = [
-              index === 0 ? 'rounded-t-2xl sm:rounded-tr-none' : '',
-              index === 1 ? 'sm:rounded-tr-2xl lg:rounded-tr-none' : '',
-              index === 3 ? 'lg:rounded-tr-2xl' : '',
-              index === 4 ? 'lg:rounded-bl-2xl' : '',
-              index === 6 ? 'sm:rounded-bl-2xl lg:rounded-bl-none' : '',
-              index === 7 ? 'rounded-b-2xl sm:rounded-bl-none' : '',
-            ]
-              .filter(Boolean)
-              .join(' ');
+        <MotionConfig reducedMotion="user">
+          <div
+            data-scroll-reveal={revealGrid['data-scroll-reveal']}
+            className={`${revealGrid.className} services-grid-glow mt-12 grid gap-px rounded-2xl border border-[#BBA98D]/45 bg-[#BBA98D]/35 sm:grid-cols-2 lg:grid-cols-4`}
+          >
+            {SERVICES_LIST.map((service, index) => {
+              const isActive =
+                hoveredServiceId === service.id || focusedServiceId === service.id;
+              const cornerClass = [
+                index === 0 ? 'rounded-t-2xl sm:rounded-tr-none' : '',
+                index === 1 ? 'sm:rounded-tr-2xl lg:rounded-tr-none' : '',
+                index === 3 ? 'lg:rounded-tr-2xl' : '',
+                index === 4 ? 'lg:rounded-bl-2xl' : '',
+                index === 6 ? 'sm:rounded-bl-2xl lg:rounded-bl-none' : '',
+                index === 7 ? 'rounded-b-2xl sm:rounded-bl-none' : '',
+              ]
+                .filter(Boolean)
+                .join(' ');
 
-            return (
-              <article
-                key={service.id}
-                className={`services-article-card group relative z-0 flex flex-col justify-between bg-[#F5F3E9] p-6 transition-[transform,background-color] duration-250 ease-[cubic-bezier(0.22,1,0.36,1)] hover:z-10 focus-within:z-10 hover:scale-[1.035] focus-within:scale-[1.035] hover:!rounded-2xl focus-within:!rounded-2xl hover:bg-[#FAF8F2] focus-within:bg-[#FAF8F2] hover:ring-1 focus-within:ring-1 hover:ring-[#BBA98D]/55 focus-within:ring-[#BBA98D]/55 motion-reduce:transition-colors motion-reduce:hover:scale-100 motion-reduce:focus-within:scale-100 sm:p-7 ${cornerClass}`}
-              >
-              <div>
-                <div className="flex items-center justify-between gap-4">
-                  <span className="services-card-icon-badge inline-flex h-11 w-11 items-center justify-center overflow-hidden rounded-xl border border-[#BBA98D]/45 bg-[#FAF8F2] transition-[transform,background-color,border-color] duration-250 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105 group-focus-within:scale-105 group-hover:border-[#10291C] group-focus-within:border-[#10291C] group-hover:bg-[#10291C] group-focus-within:bg-[#10291C] motion-reduce:transition-colors motion-reduce:group-hover:scale-100 motion-reduce:group-focus-within:scale-100">
-                    <span
-                      data-scroll-parallax="3.5"
-                      className="scroll-parallax-icon inline-flex items-center justify-center"
-                    >
-                      <ServiceIcon name={service.iconName} />
+              return (
+                <article
+                  key={service.id}
+                  onMouseEnter={() => setHoveredServiceId(service.id)}
+                  onMouseLeave={() =>
+                    setHoveredServiceId((prev) => (prev === service.id ? null : prev))
+                  }
+                  onFocusCapture={() => setFocusedServiceId(service.id)}
+                  onBlurCapture={(event) => {
+                    if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+                      setFocusedServiceId((prev) => (prev === service.id ? null : prev));
+                    }
+                  }}
+                  className={`services-article-card group relative z-0 flex flex-col justify-between bg-[#F5F3E9] p-6 transition-[transform,background-color] duration-250 ease-[cubic-bezier(0.22,1,0.36,1)] hover:z-10 focus-within:z-10 hover:scale-[1.035] focus-within:scale-[1.035] hover:!rounded-2xl focus-within:!rounded-2xl hover:bg-[#FAF8F2] focus-within:bg-[#FAF8F2] hover:ring-1 focus-within:ring-1 hover:ring-[#BBA98D]/55 focus-within:ring-[#BBA98D]/55 motion-reduce:transition-colors motion-reduce:hover:scale-100 motion-reduce:focus-within:scale-100 sm:p-7 ${cornerClass}`}
+                >
+                <div>
+                  <div className="flex items-center justify-between gap-4">
+                    <span className="services-card-icon-badge inline-flex h-11 w-11 items-center justify-center overflow-hidden rounded-xl border border-[#BBA98D]/45 bg-[#FAF8F2] transition-[transform,background-color,border-color] duration-250 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105 group-focus-within:scale-105 group-hover:border-[#10291C] group-focus-within:border-[#10291C] group-hover:bg-[#10291C] group-focus-within:bg-[#10291C] motion-reduce:transition-colors motion-reduce:group-hover:scale-100 motion-reduce:group-focus-within:scale-100">
+                      <span
+                        data-scroll-parallax="3.5"
+                        className="scroll-parallax-icon inline-flex items-center justify-center"
+                      >
+                        <ServiceIcon name={service.iconName} isActive={isActive} />
+                      </span>
                     </span>
-                  </span>
                   <span className="font-mono text-xs font-medium tracking-wider tabular-nums text-[#10291C]/50 transition-colors duration-300 group-hover:text-[#298637]">
                     {service.number}
                   </span>
@@ -162,7 +202,8 @@ export function ServicesSection() {
               </article>
             );
           })}
-        </div>
+          </div>
+        </MotionConfig>
 
         <p
           data-scroll-reveal={revealNote['data-scroll-reveal']}

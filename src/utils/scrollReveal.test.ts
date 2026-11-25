@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   getCoverflowRevealDelay,
+  getFooterListItemRevealDelay,
   getGalleryGridRevealDelay,
   scrollRevealDirectiveProps,
   shouldRevealOnIntersect,
@@ -133,5 +134,12 @@ test('getGalleryGridRevealDelay cycles cleanly across 5 grid columns', () => {
   assert.deepEqual(
     [0, 1, 2, 3, 4, 5, 6].map((idx) => getGalleryGridRevealDelay(idx)),
     [undefined, 80, 160, 240, 320, undefined, 80],
+  );
+});
+
+test('getFooterListItemRevealDelay staggers progressively and clamps at 360ms', () => {
+  assert.deepEqual(
+    [0, 1, 2, 3, 4, 5].map((idx) => getFooterListItemRevealDelay(idx)),
+    [80, 160, 240, 320, 360, 360],
   );
 });

@@ -4,7 +4,10 @@ import { SITE_CONFIG } from '../config/siteConfig';
 import type { LegalDocKey } from '../data/legalDocs';
 import { buildGeneralWhatsAppUrl } from '../utils/whatsapp';
 import { hasActiveNonEssentialTracking } from '../utils/consent';
-import { scrollRevealDirectiveProps } from '../utils/scrollReveal';
+import {
+  getFooterListItemRevealDelay,
+  scrollRevealDirectiveProps,
+} from '../utils/scrollReveal';
 import { InstagramIcon, WhatsAppIcon } from './Icons';
 import { SectionWaveDivider } from './SectionWaveDivider';
 
@@ -187,7 +190,7 @@ export function ContactAndFooter({
               <a
                 href="#inicio"
                 aria-label="Voltar ao início da página"
-                className="inline-flex items-center rounded-lg bg-[#F5F3E9] px-3 py-1.5"
+                className="group inline-flex items-center rounded-lg bg-[#F5F3E9] px-3 py-1.5 transition-[transform,box-shadow] duration-200 hover:scale-[1.01] motion-reduce:transition-none focus-visible:outline-none focus-visible:shadow-[0_0_18px_2px_rgba(132,198,43,0.45)]"
               >
                 <img
                   src="/images/marca/logo-jl.png"
@@ -195,7 +198,7 @@ export function ContactAndFooter({
                   width={1024}
                   height={690}
                   loading="lazy"
-                  className="h-12 w-auto object-contain"
+                  className="h-12 w-auto rounded-md object-contain transition-shadow duration-200 motion-reduce:transition-none group-focus-visible:ring-2 group-focus-visible:ring-[#84C62B] group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-[#10291C]"
                 />
               </a>
 
@@ -235,31 +238,28 @@ export function ContactAndFooter({
                 Navegação
               </p>
               <ul className="mt-4 space-y-2.5 text-sm text-[#F5F3E9]/80">
-                <li>
-                  <a href="#sobre" className="hover:text-[#84C62B]">
-                    Sobre a JL
-                  </a>
-                </li>
-                <li>
-                  <a href="#servicos" className="hover:text-[#84C62B]">
-                    Serviços
-                  </a>
-                </li>
-                <li>
-                  <a href="#trabalhos" className="hover:text-[#84C62B]">
-                    Trabalhos realizados
-                  </a>
-                </li>
-                <li>
-                  <a href="#agendar-visita" className="hover:text-[#84C62B]">
-                    Agendar visita
-                  </a>
-                </li>
-                <li>
-                  <a href="#contato" className="hover:text-[#84C62B]">
-                    Contato
-                  </a>
-                </li>
+                {[
+                  { href: '#sobre', label: 'Sobre a JL' },
+                  { href: '#servicos', label: 'Serviços' },
+                  { href: '#trabalhos', label: 'Trabalhos realizados' },
+                  { href: '#agendar-visita', label: 'Agendar visita' },
+                  { href: '#contato', label: 'Contato' },
+                ].map((item, index) => {
+                  const revealItem = scrollRevealDirectiveProps(
+                    getFooterListItemRevealDelay(index),
+                  );
+                  return (
+                    <li
+                      key={item.href}
+                      data-scroll-reveal={revealItem['data-scroll-reveal']}
+                      className={`${revealItem.className} footer-list-reveal`}
+                    >
+                      <a href={item.href} className="hover:text-[#84C62B]">
+                        {item.label}
+                      </a>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
 
@@ -268,44 +268,51 @@ export function ContactAndFooter({
                 Transparência e LGPD
               </p>
               <ul className="mt-4 space-y-2.5 text-sm text-[#F5F3E9]/80">
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => onOpenLegalDoc('terms')}
-                    className="text-left underline-offset-4 hover:text-[#84C62B] hover:underline"
-                  >
-                    Termos de Uso
-                  </button>
-                </li>
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => onOpenLegalDoc('privacy')}
-                    className="text-left underline-offset-4 hover:text-[#84C62B] hover:underline"
-                  >
-                    Política de Privacidade
-                  </button>
-                </li>
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => onOpenLegalDoc('cookies')}
-                    className="text-left underline-offset-4 hover:text-[#84C62B] hover:underline"
-                  >
-                    Política de Cookies
-                  </button>
-                </li>
-                {showCookiePrefs && (
-                  <li>
-                    <button
-                      type="button"
-                      onClick={onOpenConsentModal}
-                      className="text-left underline-offset-4 hover:text-[#84C62B] hover:underline"
+                {[
+                  {
+                    key: 'terms',
+                    label: 'Termos de Uso',
+                    onClick: () => onOpenLegalDoc('terms'),
+                  },
+                  {
+                    key: 'privacy',
+                    label: 'Política de Privacidade',
+                    onClick: () => onOpenLegalDoc('privacy'),
+                  },
+                  {
+                    key: 'cookies',
+                    label: 'Política de Cookies',
+                    onClick: () => onOpenLegalDoc('cookies'),
+                  },
+                  ...(showCookiePrefs
+                    ? [
+                        {
+                          key: 'cookiePrefs',
+                          label: 'Preferências de Cookies',
+                          onClick: onOpenConsentModal,
+                        },
+                      ]
+                    : []),
+                ].map((item, index) => {
+                  const revealItem = scrollRevealDirectiveProps(
+                    getFooterListItemRevealDelay(index),
+                  );
+                  return (
+                    <li
+                      key={item.key}
+                      data-scroll-reveal={revealItem['data-scroll-reveal']}
+                      className={`${revealItem.className} footer-list-reveal`}
                     >
-                      Preferências de Cookies
-                    </button>
-                  </li>
-                )}
+                      <button
+                        type="button"
+                        onClick={item.onClick}
+                        className="text-left underline-offset-4 hover:text-[#84C62B] hover:underline"
+                      >
+                        {item.label}
+                      </button>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           </div>

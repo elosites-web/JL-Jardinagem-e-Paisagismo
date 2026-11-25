@@ -246,14 +246,14 @@ export function Header({ onMobileMenuChange }: HeaderProps) {
           <a
             href="#inicio"
             aria-label={`${COMPANY.tradeName} — ir para o início`}
-            className="inline-flex shrink-0 items-center rounded-lg bg-[#F5F3E9] px-3 py-1.5 shadow-sm transition-transform hover:scale-[1.01]"
+            className="group inline-flex shrink-0 items-center rounded-lg bg-[#F5F3E9] px-3 py-1.5 shadow-sm transition-[transform,box-shadow] duration-200 hover:scale-[1.01] motion-reduce:transition-none focus-visible:outline-none focus-visible:shadow-[0_0_18px_2px_rgba(132,198,43,0.45)]"
           >
             <img
               src="/images/marca/logo-jl.png"
               alt={COMPANY.tradeName}
               width={1024}
               height={690}
-              className="h-10 w-auto object-contain sm:h-11"
+              className="h-10 w-auto rounded-md object-contain transition-shadow duration-200 motion-reduce:transition-none group-focus-visible:ring-2 group-focus-visible:ring-[#84C62B] group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-[#10291C] sm:h-11"
             />
           </a>
 

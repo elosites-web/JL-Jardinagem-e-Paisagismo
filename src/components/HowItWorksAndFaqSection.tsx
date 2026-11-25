@@ -3,6 +3,7 @@ import { FAQ_ITEMS, PROCESS_STEPS } from '../data/faqAndProcess';
 import { scrollRevealDirectiveProps, type ScrollRevealDelayMs } from '../utils/scrollReveal';
 import { FaqAccordion } from './FaqAccordion';
 import { SectionWaveDivider } from './SectionWaveDivider';
+import { StepCounterNumber } from './StepCounterNumber';
 
 const PROCESS_STEP_ICONS: readonly LucideIcon[] = [
   Leaf,
@@ -71,9 +72,10 @@ export function HowItWorksAndFaqSection() {
                       >
                         <StepIcon className="h-5 w-5" strokeWidth={1.5} aria-hidden="true" />
                       </span>
-                      <span className="font-display text-5xl font-semibold leading-none tracking-tight tabular-nums text-forest sm:text-6xl">
-                        {step.number}
-                      </span>
+                      <StepCounterNumber
+                        stepNumber={step.number}
+                        delayMs={STEP_REVEAL_DELAYS[index] ?? 0}
+                      />
                     </div>
                     <h3 className="mt-5 font-editorial text-2xl font-semibold leading-snug text-[#10291C]">
                       {step.title}
