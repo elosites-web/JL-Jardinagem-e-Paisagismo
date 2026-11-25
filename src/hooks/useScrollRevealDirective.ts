@@ -7,7 +7,7 @@ import {
   shouldRevealOnMount,
 } from '../utils/scrollReveal';
 
-const SETTLE_FALLBACK_MS = 950;
+const SETTLE_FALLBACK_MS = 1200;
 
 /**
  * Diretiva global baseada em IntersectionObserver que aplica revelação suave
@@ -18,17 +18,19 @@ export function useScrollRevealDirective(): void {
   useLayoutEffect(() => {
     if (typeof window === 'undefined' || typeof document === 'undefined') return;
 
-    const elements = Array.from(document.querySelectorAll<HTMLElement>(SCROLL_REVEAL_SELECTOR));
-    if (elements.length === 0) return;
-
     const motionQuery =
       typeof window.matchMedia === 'function'
         ? window.matchMedia('(prefers-reduced-motion: reduce)')
         : null;
-    const prefersReducedMotion = Boolean(motionQuery?.matches);
+    let prefersReducedMotion = Boolean(motionQuery?.matches);
     const hasIO = typeof IntersectionObserver !== 'undefined';
 
+    const registeredElements = new WeakSet<HTMLElement>();
+    const trackedElements = new Set<HTMLElement>();
+    const pendingElements = new Set<HTMLElement>();
     const settleTimers = new WeakMap<HTMLElement, number>();
+    const rafTimers = new Set<number>();
+    let scrollSweepRaf = 0;
     let observer: IntersectionObserver | null = null;
 
     const markSettled = (el: HTMLElement) => {
@@ -37,6 +39,7 @@ export function useScrollRevealDirective(): void {
         window.clearTimeout(existingTimer);
         settleTimers.delete(el);
       }
+      pendingElements.delete(el);
       el.setAttribute(SCROLL_REVEAL_ATTR, 'settled');
       observer?.unobserve(el);
     };
@@ -45,6 +48,7 @@ export function useScrollRevealDirective(): void {
       const currentState = el.getAttribute(SCROLL_REVEAL_ATTR);
       if (currentState === 'visible' || currentState === 'settled') return;
 
+      pendingElements.delete(el);
       observer?.unobserve(el);
 
       if (immediate || prefersReducedMotion) {
@@ -70,54 +74,130 @@ export function useScrollRevealDirective(): void {
       settleTimers.set(el, fallbackTimer);
     };
 
-    const viewportHeight = window.innerHeight;
-    const pendingElements: HTMLElement[] = [];
+    if (!prefersReducedMotion && hasIO) {
+      observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            const target = entry.target;
+            if (!(target instanceof HTMLElement)) continue;
 
-    for (const el of elements) {
-      const rect = el.getBoundingClientRect();
-      if (
-        shouldRevealOnMount({
-          rectTop: rect.top,
-          viewportHeight,
-          hasIntersectionObserver: hasIO,
-          reducedMotion: prefersReducedMotion,
-        })
-      ) {
-        revealElement(el, true);
-      } else {
-        pendingElements.push(el);
-      }
-    }
-
-    if (pendingElements.length === 0) return;
-
-    observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          const target = entry.target;
-          if (!(target instanceof HTMLElement)) continue;
-
-          if (
-            shouldRevealOnIntersect({
-              isIntersecting: entry.isIntersecting,
-              boundingClientRectTop: entry.boundingClientRect.top,
-              rootBoundsBottom: entry.rootBounds?.bottom ?? null,
-              viewportHeight: window.innerHeight,
-            })
-          ) {
-            revealElement(target, false);
+            if (
+              shouldRevealOnIntersect({
+                isIntersecting: entry.isIntersecting,
+                boundingClientRectTop: entry.boundingClientRect.top,
+                rootBoundsBottom: entry.rootBounds?.bottom ?? null,
+                viewportHeight: window.innerHeight,
+              })
+            ) {
+              revealElement(target, false);
+            }
           }
-        }
-      },
-      {
-        threshold: [0, 0.06],
-        rootMargin: '0px 0px -36px 0px',
-      },
-    );
-
-    for (const el of pendingElements) {
-      observer.observe(el);
+        },
+        {
+          threshold: [0, 0.06],
+          rootMargin: '0px 0px -36px 0px',
+        },
+      );
     }
+
+    const sweepPendingElements = () => {
+      scrollSweepRaf = 0;
+      if (pendingElements.size === 0) return;
+
+      const viewportHeight = window.innerHeight;
+      for (const el of Array.from(pendingElements)) {
+        if (!el.isConnected) {
+          pendingElements.delete(el);
+          observer?.unobserve(el);
+          continue;
+        }
+        const rect = el.getBoundingClientRect();
+        if (rect.bottom < 0) {
+          revealElement(el, true);
+        } else if (rect.top <= viewportHeight * 0.96) {
+          revealElement(el, false);
+        }
+      }
+    };
+
+    const scheduleScrollSweep = () => {
+      if (pendingElements.size === 0 || scrollSweepRaf !== 0) return;
+      scrollSweepRaf = window.requestAnimationFrame(sweepPendingElements);
+    };
+
+    const registerElement = (el: HTMLElement, isDynamicMount: boolean) => {
+      if (registeredElements.has(el)) return;
+      registeredElements.add(el);
+      trackedElements.add(el);
+
+      const currentState = el.getAttribute(SCROLL_REVEAL_ATTR);
+      if (currentState === 'visible' || currentState === 'settled') return;
+
+      if (prefersReducedMotion || !hasIO || !observer) {
+        markSettled(el);
+        return;
+      }
+
+      const rect = el.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+
+      if (!isDynamicMount) {
+        if (
+          shouldRevealOnMount({
+            rectTop: rect.top,
+            viewportHeight,
+            hasIntersectionObserver: true,
+            reducedMotion: false,
+          })
+        ) {
+          revealElement(el, true);
+        } else {
+          pendingElements.add(el);
+          observer.observe(el);
+        }
+        return;
+      }
+
+      if (rect.bottom < 0) {
+        revealElement(el, true);
+      } else if (rect.top <= viewportHeight * 0.94) {
+        const rafOuter = window.requestAnimationFrame(() => {
+          rafTimers.delete(rafOuter);
+          const rafInner = window.requestAnimationFrame(() => {
+            rafTimers.delete(rafInner);
+            revealElement(el, false);
+          });
+          rafTimers.add(rafInner);
+        });
+        rafTimers.add(rafOuter);
+      } else {
+        pendingElements.add(el);
+        observer.observe(el);
+      }
+    };
+
+    for (const el of document.querySelectorAll<HTMLElement>(SCROLL_REVEAL_SELECTOR)) {
+      registerElement(el, false);
+    }
+
+    const mutationObserver =
+      typeof MutationObserver !== 'undefined'
+        ? new MutationObserver((mutations) => {
+            for (const mutation of mutations) {
+              for (const node of mutation.addedNodes) {
+                if (!(node instanceof HTMLElement)) continue;
+                if (node.matches(SCROLL_REVEAL_SELECTOR)) {
+                  registerElement(node, true);
+                }
+                for (const child of node.querySelectorAll<HTMLElement>(SCROLL_REVEAL_SELECTOR)) {
+                  registerElement(child, true);
+                }
+              }
+            }
+          })
+        : null;
+
+    mutationObserver?.observe(document.body, { childList: true, subtree: true });
 
     const handleAnchorNavigateStart = (event: Event) => {
       const custom = event as CustomEvent<{ targetId?: string }>;
@@ -138,20 +218,30 @@ export function useScrollRevealDirective(): void {
 
     const handleReducedMotionChange = (event: MediaQueryListEvent) => {
       if (!event.matches) return;
-      for (const el of elements) {
+      prefersReducedMotion = true;
+      for (const el of trackedElements) {
         markSettled(el);
       }
       observer?.disconnect();
     };
 
+    window.addEventListener('scroll', scheduleScrollSweep, { passive: true });
     window.addEventListener(ANCHOR_NAVIGATE_START_EVENT, handleAnchorNavigateStart);
     motionQuery?.addEventListener?.('change', handleReducedMotionChange);
 
     return () => {
       observer?.disconnect();
+      mutationObserver?.disconnect();
+      window.removeEventListener('scroll', scheduleScrollSweep);
       window.removeEventListener(ANCHOR_NAVIGATE_START_EVENT, handleAnchorNavigateStart);
       motionQuery?.removeEventListener?.('change', handleReducedMotionChange);
-      for (const el of elements) {
+      if (scrollSweepRaf !== 0) {
+        window.cancelAnimationFrame(scrollSweepRaf);
+      }
+      for (const id of rafTimers) {
+        window.cancelAnimationFrame(id);
+      }
+      for (const el of trackedElements) {
         const timer = settleTimers.get(el);
         if (timer !== undefined) {
           window.clearTimeout(timer);

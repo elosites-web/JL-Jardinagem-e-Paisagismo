@@ -1,7 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
 import { CheckCircle2, ClipboardCheck, Leaf, MapPin, type LucideIcon } from 'lucide-react';
 import { FAQ_ITEMS, PROCESS_STEPS } from '../data/faqAndProcess';
-import { scrollRevealDirectiveProps } from '../utils/scrollReveal';
+import { scrollRevealDirectiveProps, type ScrollRevealDelayMs } from '../utils/scrollReveal';
 import { FaqAccordion } from './FaqAccordion';
 
 const PROCESS_STEP_ICONS: readonly LucideIcon[] = [
@@ -11,44 +10,17 @@ const PROCESS_STEP_ICONS: readonly LucideIcon[] = [
   CheckCircle2,
 ];
 
-const STEP_FADE_DELAY_CLASSES = [
-  '[--fade-delay:0ms]',
-  '[--fade-delay:150ms]',
-  '[--fade-delay:300ms]',
-  '[--fade-delay:450ms]',
-] as const;
+const STEP_REVEAL_DELAYS: readonly (ScrollRevealDelayMs | undefined)[] = [
+  undefined,
+  120,
+  240,
+  360,
+];
 
 export function HowItWorksAndFaqSection() {
   const revealProcessHeader = scrollRevealDirectiveProps();
   const revealFaqIntro = scrollRevealDirectiveProps();
   const revealFaqList = scrollRevealDirectiveProps(80);
-  const processListRef = useRef<HTMLOListElement | null>(null);
-  const [isProcessVisible, setIsProcessVisible] = useState(() => {
-    if (typeof window === 'undefined') return true;
-    return (
-      typeof IntersectionObserver === 'undefined' ||
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    );
-  });
-
-  useEffect(() => {
-    if (isProcessVisible) return;
-    const target = processListRef.current;
-    if (!target) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((entry) => entry.isIntersecting)) {
-          setIsProcessVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.15, rootMargin: '0px 0px -32px 0px' },
-    );
-
-    observer.observe(target);
-    return () => observer.disconnect();
-  }, [isProcessVisible]);
 
   return (
     <>
@@ -74,23 +46,21 @@ export function HowItWorksAndFaqSection() {
             </h2>
           </div>
 
-          <ol ref={processListRef} className="mt-12 grid list-none gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <ol className="mt-12 grid list-none gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {PROCESS_STEPS.map((step, index) => {
               const StepIcon = PROCESS_STEP_ICONS[index] ?? Leaf;
+              const revealStep = scrollRevealDirectiveProps(STEP_REVEAL_DELAYS[index]);
               return (
                 <li
                   key={step.number}
-                  className={`flex flex-col justify-between rounded-2xl border border-[#BBA98D]/45 bg-[#FAF8F2] p-6 sm:p-7 ${
-                    isProcessVisible
-                      ? `animate-fade-in ${STEP_FADE_DELAY_CLASSES[index] ?? '[--fade-delay:0ms]'}`
-                      : 'opacity-0'
-                  }`}
+                  data-scroll-reveal={revealStep['data-scroll-reveal']}
+                  className={`${revealStep.className} how-it-works-card relative flex flex-col justify-between rounded-2xl border border-[#BBA98D]/45 bg-[#FAF8F2] p-6 sm:p-7`}
                 >
                   <div>
                     <div className="flex items-center justify-between gap-4">
                       <span
                         aria-hidden="true"
-                        className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#BBA98D]/45 bg-[#F5F3E9] text-[#298637]"
+                        className="how-it-works-icon-badge inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#BBA98D]/45 bg-[#F5F3E9] text-[#298637]"
                       >
                         <StepIcon className="h-5 w-5" strokeWidth={1.5} aria-hidden="true" />
                       </span>

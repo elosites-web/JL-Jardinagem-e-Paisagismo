@@ -86,11 +86,6 @@ export function HeroSection() {
           </div>
         </div>
       </div>
-
-      {/* Rótulo discreto para transparência de imagem ilustrativa */}
-      <p className="pointer-events-none absolute right-6 bottom-5 z-10 rounded bg-[#10291C]/75 px-2.5 py-1 text-[11px] font-medium tracking-wide text-[#F5F3E9]/85 backdrop-blur-sm sm:right-10 sm:bottom-8 lg:right-12 lg:bottom-9">
-        Imagem ilustrativa
-      </p>
     </section>
   );
 }

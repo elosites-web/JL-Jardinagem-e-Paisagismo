@@ -100,12 +100,10 @@ export function LightboxModal({
       <div className="relative flex max-h-[94dvh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl border border-white/15 bg-[#10291C] text-[#F5F3E9] shadow-2xl">
         {/* Topo do lightbox */}
         <div className="flex items-center justify-between gap-4 border-b border-white/10 px-4 py-3 sm:px-6">
-          <div className="min-w-0">
-            <p className="text-xs font-medium tracking-wider uppercase text-[#BBA98D]">
-              {GALLERY_CATEGORY_LABELS[currentPhoto.category]} · Trabalho real JL
-            </p>
-            <p className="truncate text-sm font-medium text-[#F5F3E9]">{currentPhoto.alt}</p>
-          </div>
+          <p className="min-w-0 text-xs font-medium tracking-wider uppercase text-[#BBA98D]">
+            {GALLERY_CATEGORY_LABELS[currentPhoto.category]} ·{' '}
+            {currentPhoto.aiEnhanced ? 'Portfólio JL' : 'Trabalho real JL'}
+          </p>
 
           <div className="flex items-center gap-3 shrink-0">
             <span className="font-mono text-xs tabular-nums text-[#F5F3E9]/70">
@@ -123,8 +121,8 @@ export function LightboxModal({
           </div>
         </div>
 
-        {/* Imagem principal ajustada sem scroll interno */}
-        <div className="relative flex flex-1 items-center justify-center bg-[#0b1d13] p-3 sm:p-5">
+        {/* Imagem principal ajustada com espaço para descrição completa */}
+        <div className="relative flex min-h-0 flex-1 items-center justify-center bg-[#0b1d13] p-3 sm:p-5">
           <button
             type="button"
             onClick={() => onNavigate(prevIndex)}
@@ -140,7 +138,7 @@ export function LightboxModal({
             width={currentPhoto.width}
             height={currentPhoto.height}
             decoding="async"
-            className="max-h-[68dvh] w-auto max-w-full rounded-lg object-contain"
+            className="max-h-[58dvh] sm:max-h-[66dvh] w-auto max-w-full rounded-lg object-contain"
           />
 
           <button
@@ -151,6 +149,13 @@ export function LightboxModal({
           >
             <ChevronRight className="h-5 w-5" aria-hidden="true" />
           </button>
+        </div>
+
+        {/* Legenda completa sem cortes */}
+        <div className="shrink-0 border-t border-white/10 bg-[#10291C] px-4 py-3.5 sm:px-6">
+          <p className="text-sm font-medium leading-relaxed text-[#F5F3E9] break-words sm:text-[15px]">
+            {currentPhoto.alt}
+          </p>
         </div>
       </div>
     </div>

@@ -7,7 +7,11 @@ import {
   type GalleryCategory,
   type GalleryPhoto,
 } from '../data/gallery';
-import { scrollRevealDirectiveProps } from '../utils/scrollReveal';
+import {
+  getCoverflowRevealDelay,
+  getGalleryGridRevealDelay,
+  scrollRevealDirectiveProps,
+} from '../utils/scrollReveal';
 import { LightboxModal } from './LightboxModal';
 
 interface PortfolioGallerySectionProps {
@@ -48,6 +52,7 @@ export function PortfolioGallerySection({ onModalStateChange }: PortfolioGallery
   const touchStartRef = useRef<{ x: number; y: number } | null>(null);
   const scrollStepRef = useRef<number>(-1);
   const [isCompactViewport, setIsCompactViewport] = useState(false);
+  const [hasCarouselAdvanced, setHasCarouselAdvanced] = useState(false);
 
   const featuredPhotos = FEATURED_GALLERY_PHOTOS;
   const totalFeatured = featuredPhotos.length;
@@ -133,6 +138,7 @@ export function PortfolioGallerySection({ onModalStateChange }: PortfolioGallery
           const delta = mappedStep > scrollStepRef.current ? 1 : -1;
           scrollStepRef.current = mappedStep;
           suspendAutoplayTemporarily();
+          setHasCarouselAdvanced(true);
           setActiveIndex((prev) => (prev + delta + totalFeatured) % totalFeatured);
         }
       });
@@ -159,6 +165,7 @@ export function PortfolioGallerySection({ onModalStateChange }: PortfolioGallery
     }
 
     const interval = window.setInterval(() => {
+      setHasCarouselAdvanced(true);
       setActiveIndex((prev) => (prev + 1) % totalFeatured);
     }, 4000);
 
@@ -176,6 +183,7 @@ export function PortfolioGallerySection({ onModalStateChange }: PortfolioGallery
   const goToIndex = useCallback(
     (nextIndex: number) => {
       suspendAutoplayTemporarily();
+      setHasCarouselAdvanced(true);
       setActiveIndex(((nextIndex % totalFeatured) + totalFeatured) % totalFeatured);
     },
     [suspendAutoplayTemporarily, totalFeatured],
@@ -207,7 +215,7 @@ export function PortfolioGallerySection({ onModalStateChange }: PortfolioGallery
 
   const activePhoto = featuredPhotos[activeIndex];
   const revealHeader = scrollRevealDirectiveProps();
-  const revealStage = scrollRevealDirectiveProps(80);
+  const revealControls = scrollRevealDirectiveProps(160);
 
   return (
     <section
@@ -266,15 +274,18 @@ export function PortfolioGallerySection({ onModalStateChange }: PortfolioGallery
               className="inline-flex min-h-[42px] items-center gap-2 rounded-lg bg-[#84C62B] px-4 py-2 text-sm font-semibold text-[#10291C] transition-colors hover:bg-[#95d63c]"
             >
               <Grid2x2 className="h-4 w-4" aria-hidden="true" />
-              <span>{showAllPhotos ? 'Ocultar grade completa' : 'Ver todas as fotos (30)'}</span>
+              <span>
+                {showAllPhotos
+                  ? 'Ocultar grade completa'
+                  : `Ver todas as fotos (${GALLERY_PHOTOS.length})`}
+              </span>
             </button>
           </div>
         </div>
 
         {/* Carrossel 3D Coverflow / Cilindro com janela de até 7 itens */}
         <div
-          data-scroll-reveal={revealStage['data-scroll-reveal']}
-          className={`${revealStage.className} mt-12 select-none overflow-hidden`}
+          className="mt-12 select-none overflow-hidden"
           onMouseEnter={() => setIsHoveredOrFocused(true)}
           onMouseLeave={() => setIsHoveredOrFocused(false)}
           onFocusCapture={() => setIsHoveredOrFocused(true)}
@@ -331,6 +342,10 @@ export function PortfolioGallerySection({ onModalStateChange }: PortfolioGallery
                 opacityValue = Math.max(0.24, 1 - absDelta * 0.25);
               }
 
+              const revealCard = hasCarouselAdvanced
+                ? { 'data-scroll-reveal': 'settled' as const, className: 'scroll-reveal' }
+                : scrollRevealDirectiveProps(getCoverflowRevealDelay(absDelta));
+
               return (
                 <button
                   key={photo.id}
@@ -361,7 +376,10 @@ export function PortfolioGallerySection({ onModalStateChange }: PortfolioGallery
                       : 'border-white/15 hover:border-white/35'
                   }`}
                 >
-                  <div className="relative aspect-square w-full overflow-hidden">
+                  <div
+                    data-scroll-reveal={revealCard['data-scroll-reveal']}
+                    className={`${revealCard.className} relative aspect-square w-full overflow-hidden`}
+                  >
                     <img
                       src={isCenter ? photo.src : photo.thumb}
                       srcSet={`${photo.thumb} 480w, ${photo.src} ${photo.width}w`}
@@ -397,17 +415,21 @@ export function PortfolioGallerySection({ onModalStateChange }: PortfolioGallery
           </div>
 
           {/* Controles do carrossel */}
-          <div className="mt-6 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-6 sm:flex-row">
+          <div
+            data-scroll-reveal={revealControls['data-scroll-reveal']}
+            className={`${revealControls.className} mt-6 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-6 sm:flex-row`}
+          >
             <div className="text-center sm:text-left">
               <p className="text-xs font-medium uppercase tracking-wider text-[#BBA98D]">
-                Destaque {activeIndex + 1} de {totalFeatured} · Portfólio real
+                Destaque {activeIndex + 1} de {totalFeatured} ·{' '}
+                {activePhoto.aiEnhanced ? 'Portfólio JL' : 'Portfólio real'}
               </p>
               <p className="mt-0.5 min-h-[2.5rem] line-clamp-2 text-sm text-[#F5F3E9]/85 lg:min-h-[1.25rem]">
                 {activePhoto.alt}
               </p>
             </div>
 
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3">
               <button
                 type="button"
                 onClick={() => goToIndex(activeIndex - 1)}
@@ -417,7 +439,11 @@ export function PortfolioGallerySection({ onModalStateChange }: PortfolioGallery
                 <ChevronLeft className="h-5 w-5" aria-hidden="true" />
               </button>
 
-              <div className="flex items-center gap-1.5" role="tablist" aria-label="Selecionar destaque">
+              <div
+                className="flex max-w-[230px] flex-wrap items-center justify-center gap-1.5 sm:max-w-none"
+                role="tablist"
+                aria-label="Selecionar destaque"
+              >
                 {featuredPhotos.map((photo, index) => (
                   <button
                     key={photo.id}
@@ -447,7 +473,7 @@ export function PortfolioGallerySection({ onModalStateChange }: PortfolioGallery
           </div>
         </div>
 
-        {/* Grade completa sob demanda com todas as 30 fotografias reais */}
+        {/* Grade completa sob demanda com todas as fotografias do acervo */}
         {showAllPhotos && (
           <div
             id="todas-fotos-grid"
@@ -491,14 +517,19 @@ export function PortfolioGallerySection({ onModalStateChange }: PortfolioGallery
             </div>
 
             <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-5">
-              {filteredGridPhotos.map((photo, index) => (
-                <button
-                  key={photo.id}
-                  type="button"
-                  onClick={(event) => openLightbox(filteredGridPhotos, index, event.currentTarget)}
-                  aria-label={`Ampliar trabalho ${photo.id}: ${photo.alt}`}
-                  className="group relative aspect-square overflow-hidden rounded-xl border border-white/10 bg-[#0b1d13] text-left transition-colors hover:border-[#84C62B]"
-                >
+              {filteredGridPhotos.map((photo, index) => {
+                const revealGridPhoto = scrollRevealDirectiveProps(
+                  getGalleryGridRevealDelay(index),
+                );
+                return (
+                  <button
+                    key={`${activeCategory}-${photo.id}`}
+                    type="button"
+                    data-scroll-reveal={revealGridPhoto['data-scroll-reveal']}
+                    onClick={(event) => openLightbox(filteredGridPhotos, index, event.currentTarget)}
+                    aria-label={`Ampliar trabalho ${photo.id}: ${photo.alt}`}
+                    className={`${revealGridPhoto.className} group relative aspect-square overflow-hidden rounded-xl border border-white/10 bg-[#0b1d13] text-left transition-colors hover:border-[#84C62B]`}
+                  >
                   <img
                     src={photo.thumb}
                     alt={photo.alt}
@@ -512,11 +543,12 @@ export function PortfolioGallerySection({ onModalStateChange }: PortfolioGallery
                     aria-hidden="true"
                     className="absolute inset-0 bg-gradient-to-t from-[#10291C]/85 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
                   />
-                  <span className="absolute inset-x-0 bottom-0 p-2.5 text-xs font-medium text-[#F5F3E9] opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 line-clamp-2">
-                    {photo.alt}
-                  </span>
-                </button>
-              ))}
+                    <span className="absolute inset-x-0 bottom-0 p-2.5 text-xs font-medium text-[#F5F3E9] opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 line-clamp-2">
+                      {photo.alt}
+                    </span>
+                  </button>
+                );
+              })}
             </div>
           </div>
         )}

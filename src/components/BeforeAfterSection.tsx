@@ -156,7 +156,7 @@ export function BeforeAfterSection() {
 
               {/* Selo permanente legível na imagem */}
               <span className="pointer-events-none absolute bottom-3 left-3 rounded bg-[#10291C]/85 px-2.5 py-1 text-[11px] font-medium text-[#F5F3E9] backdrop-blur-sm">
-                Simulação ilustrativa • imagens geradas por IA
+                Simulação ilustrativa
               </span>
 
               {/* Linha e pegador visual */}

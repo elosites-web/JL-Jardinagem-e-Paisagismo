@@ -1,6 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
+  getCoverflowRevealDelay,
+  getGalleryGridRevealDelay,
   scrollRevealDirectiveProps,
   shouldRevealOnIntersect,
   shouldRevealOnMount,
@@ -102,4 +104,34 @@ test('scrollRevealDirectiveProps builds expected data attribute and classes with
     'data-scroll-reveal': 'hidden',
     className: 'scroll-reveal scroll-reveal-delay-120',
   });
+
+  assert.deepEqual(scrollRevealDirectiveProps(240), {
+    'data-scroll-reveal': 'hidden',
+    className: 'scroll-reveal scroll-reveal-delay-240',
+  });
+
+  assert.deepEqual(scrollRevealDirectiveProps(320), {
+    'data-scroll-reveal': 'hidden',
+    className: 'scroll-reveal scroll-reveal-delay-320',
+  });
+
+  assert.deepEqual(scrollRevealDirectiveProps(360), {
+    'data-scroll-reveal': 'hidden',
+    className: 'scroll-reveal scroll-reveal-delay-360',
+  });
+});
+
+test('getCoverflowRevealDelay staggers outward from center card', () => {
+  assert.equal(getCoverflowRevealDelay(0), undefined);
+  assert.equal(getCoverflowRevealDelay(1), 80);
+  assert.equal(getCoverflowRevealDelay(2), 160);
+  assert.equal(getCoverflowRevealDelay(3), 240);
+  assert.equal(getCoverflowRevealDelay(5), 240);
+});
+
+test('getGalleryGridRevealDelay cycles cleanly across 5 grid columns', () => {
+  assert.deepEqual(
+    [0, 1, 2, 3, 4, 5, 6].map((idx) => getGalleryGridRevealDelay(idx)),
+    [undefined, 80, 160, 240, 320, undefined, 80],
+  );
 });

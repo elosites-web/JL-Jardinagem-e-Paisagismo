@@ -11,6 +11,7 @@ export interface GalleryPhoto {
   thumbWidth: number;
   thumbHeight: number;
   featured: boolean;
+  aiEnhanced?: boolean;
 }
 
 export const GALLERY_CATEGORY_LABELS: Record<'todas' | GalleryCategory, string> = {
@@ -23,7 +24,7 @@ export const GALLERY_CATEGORY_LABELS: Record<'todas' | GalleryCategory, string> 
 };
 
 export const FEATURED_ORDER: readonly number[] = [
-  11, 1, 15, 19, 25, 6, 28, 20, 4, 29, 24, 8,
+  11, 1, 33, 15, 19, 34, 25, 6, 31, 28, 20, 35, 4, 29, 24, 8,
 ];
 
 export const GALLERY_PHOTOS: readonly GalleryPhoto[] = [
@@ -88,6 +89,19 @@ export const GALLERY_PHOTOS: readonly GalleryPhoto[] = [
     featured: false,
   },
   {
+    id: 32,
+    src: '/images/galeria/projeto-32-canteiro-pedriscos-muro-pedra.webp',
+    thumb: '/images/galeria/thumbs/projeto-32-canteiro-pedriscos-muro-pedra.webp',
+    alt: 'Canteiro com pedriscos e folhagens verdes e avermelhadas junto a muro revestido em pedra clara',
+    category: 'canteiros',
+    width: 780,
+    height: 1040,
+    thumbWidth: 360,
+    thumbHeight: 480,
+    featured: false,
+    aiEnhanced: true,
+  },
+  {
     id: 6,
     src: '/images/galeria/projeto-06-canteiro-pedriscos-plantas.webp',
     thumb: '/images/galeria/thumbs/projeto-06-canteiro-pedriscos-plantas.webp',
@@ -98,18 +112,6 @@ export const GALLERY_PHOTOS: readonly GalleryPhoto[] = [
     thumbWidth: 480,
     thumbHeight: 480,
     featured: true,
-  },
-  {
-    id: 7,
-    src: '/images/galeria/projeto-07-escultura-area-piscina.webp',
-    thumb: '/images/galeria/thumbs/projeto-07-escultura-area-piscina.webp',
-    alt: 'Detalhe de escultura junto à piscina',
-    category: 'piscinas',
-    width: 960,
-    height: 960,
-    thumbWidth: 480,
-    thumbHeight: 480,
-    featured: false,
   },
   {
     id: 8,
@@ -134,6 +136,19 @@ export const GALLERY_PHOTOS: readonly GalleryPhoto[] = [
     thumbWidth: 270,
     thumbHeight: 480,
     featured: false,
+  },
+  {
+    id: 31,
+    src: '/images/galeria/projeto-31-caminho-placas-folhagem-vermelha.webp',
+    thumb: '/images/galeria/thumbs/projeto-31-caminho-placas-folhagem-vermelha.webp',
+    alt: 'Caminho de placas retangulares com pedriscos e canteiro de folhagens verdes e avermelhadas junto ao muro',
+    category: 'caminhos',
+    width: 415,
+    height: 739,
+    thumbWidth: 270,
+    thumbHeight: 480,
+    featured: true,
+    aiEnhanced: true,
   },
   {
     id: 10,
@@ -196,6 +211,19 @@ export const GALLERY_PHOTOS: readonly GalleryPhoto[] = [
     featured: false,
   },
   {
+    id: 34,
+    src: '/images/galeria/projeto-34-vaso-ornamental-gramado-canteiro.webp',
+    thumb: '/images/galeria/thumbs/projeto-34-vaso-ornamental-gramado-canteiro.webp',
+    alt: 'Vaso ornamental com flores sobre placa e pedriscos no gramado frontal junto a canteiro de folhagens avermelhadas',
+    category: 'fachadas',
+    width: 780,
+    height: 1040,
+    thumbWidth: 360,
+    thumbHeight: 480,
+    featured: true,
+    aiEnhanced: true,
+  },
+  {
     id: 15,
     src: '/images/galeria/projeto-15-jardim-piscina-gramado.webp',
     thumb: '/images/galeria/thumbs/projeto-15-jardim-piscina-gramado.webp',
@@ -230,6 +258,19 @@ export const GALLERY_PHOTOS: readonly GalleryPhoto[] = [
     thumbWidth: 480,
     thumbHeight: 480,
     featured: false,
+  },
+  {
+    id: 33,
+    src: '/images/galeria/projeto-33-canteiro-piscina-revestimento-pedra.webp',
+    thumb: '/images/galeria/thumbs/projeto-33-canteiro-piscina-revestimento-pedra.webp',
+    alt: 'Canteiro com pedriscos, folhagens verdes e avermelhadas ao lado da piscina e muro em pedra clara',
+    category: 'piscinas',
+    width: 780,
+    height: 1040,
+    thumbWidth: 360,
+    thumbHeight: 480,
+    featured: true,
+    aiEnhanced: true,
   },
   {
     id: 18,
@@ -278,6 +319,19 @@ export const GALLERY_PHOTOS: readonly GalleryPhoto[] = [
     thumbWidth: 480,
     thumbHeight: 480,
     featured: false,
+  },
+  {
+    id: 36,
+    src: '/images/galeria/projeto-36-caminho-placas-folhagens-muro.webp',
+    thumb: '/images/galeria/thumbs/projeto-36-caminho-placas-folhagens-muro.webp',
+    alt: 'Passagem lateral com placas e pedriscos acompanhada por canteiro de folhagens verdes e avermelhadas',
+    category: 'caminhos',
+    width: 335,
+    height: 597,
+    thumbWidth: 269,
+    thumbHeight: 480,
+    featured: false,
+    aiEnhanced: true,
   },
   {
     id: 22,
@@ -352,6 +406,19 @@ export const GALLERY_PHOTOS: readonly GalleryPhoto[] = [
     featured: false,
   },
   {
+    id: 35,
+    src: '/images/galeria/projeto-35-canteiro-folhagens-muro-pedra.webp',
+    thumb: '/images/galeria/thumbs/projeto-35-canteiro-folhagens-muro-pedra.webp',
+    alt: 'Canteiro lateral com pedriscos e folhagens altas e avermelhadas junto a muro revestido em pedra',
+    category: 'canteiros',
+    width: 780,
+    height: 1040,
+    thumbWidth: 360,
+    thumbHeight: 480,
+    featured: true,
+    aiEnhanced: true,
+  },
+  {
     id: 28,
     src: '/images/galeria/projeto-28-caminho-placas-iluminacao.webp',
     thumb: '/images/galeria/thumbs/projeto-28-caminho-placas-iluminacao.webp',
@@ -390,5 +457,5 @@ export const GALLERY_PHOTOS: readonly GalleryPhoto[] = [
 ];
 
 export const FEATURED_GALLERY_PHOTOS: readonly GalleryPhoto[] = FEATURED_ORDER.map(
-  (id) => GALLERY_PHOTOS.find((photo) => photo.id === id)!,
-).filter(Boolean);
+  (id) => GALLERY_PHOTOS.find((photo) => photo.id === id),
+).filter((photo): photo is GalleryPhoto => Boolean(photo));

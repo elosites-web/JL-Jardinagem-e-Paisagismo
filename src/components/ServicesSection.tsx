@@ -31,7 +31,7 @@ function ServiceIcon({ name }: { name: ServiceItem['iconName'] }) {
   const Icon = SERVICE_ICONS[name];
   return (
     <Icon
-      className="h-[19px] w-[19px] text-[#298637] transition-colors duration-300 group-hover:text-[#84C62B]"
+      className="services-card-icon-svg h-[19px] w-[19px] text-[#298637] transition-[transform,color] duration-250 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-110 group-focus-within:scale-110 group-hover:text-[#84C62B] group-focus-within:text-[#84C62B] motion-reduce:transition-colors motion-reduce:group-hover:scale-100 motion-reduce:group-focus-within:scale-100"
       strokeWidth={1.5}
       aria-hidden="true"
     />
@@ -116,11 +116,11 @@ export function ServicesSection() {
             return (
               <article
                 key={service.id}
-                className={`services-article-card group relative z-0 flex flex-col justify-between bg-[#F5F3E9] p-6 transition-[transform,box-shadow,background-color,border-radius] duration-300 ease-out hover:z-10 focus-within:z-10 hover:scale-105 focus-within:scale-105 hover:!rounded-2xl focus-within:!rounded-2xl hover:bg-[#FAF8F2] focus-within:bg-[#FAF8F2] hover:shadow-[0_24px_48px_-14px_rgba(16,41,28,0.22)] focus-within:shadow-[0_24px_48px_-14px_rgba(16,41,28,0.22)] hover:ring-1 focus-within:ring-1 hover:ring-[#BBA98D]/55 focus-within:ring-[#BBA98D]/55 motion-reduce:transition-colors motion-reduce:hover:scale-100 motion-reduce:focus-within:scale-100 sm:p-7 ${cornerClass}`}
+                className={`services-article-card group relative z-0 flex flex-col justify-between bg-[#F5F3E9] p-6 transition-[transform,background-color] duration-250 ease-[cubic-bezier(0.22,1,0.36,1)] hover:z-10 focus-within:z-10 hover:scale-[1.035] focus-within:scale-[1.035] hover:!rounded-2xl focus-within:!rounded-2xl hover:bg-[#FAF8F2] focus-within:bg-[#FAF8F2] hover:ring-1 focus-within:ring-1 hover:ring-[#BBA98D]/55 focus-within:ring-[#BBA98D]/55 motion-reduce:transition-colors motion-reduce:hover:scale-100 motion-reduce:focus-within:scale-100 sm:p-7 ${cornerClass}`}
               >
               <div>
                 <div className="flex items-center justify-between gap-4">
-                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-[#BBA98D]/45 bg-[#FAF8F2] transition-colors duration-300 group-hover:border-[#10291C] group-hover:bg-[#10291C]">
+                  <span className="services-card-icon-badge inline-flex h-11 w-11 items-center justify-center rounded-xl border border-[#BBA98D]/45 bg-[#FAF8F2] transition-[transform,background-color,border-color] duration-250 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105 group-focus-within:scale-105 group-hover:border-[#10291C] group-focus-within:border-[#10291C] group-hover:bg-[#10291C] group-focus-within:bg-[#10291C] motion-reduce:transition-colors motion-reduce:group-hover:scale-100 motion-reduce:group-focus-within:scale-100">
                     <ServiceIcon name={service.iconName} />
                   </span>
                   <span className="font-mono text-xs font-medium tracking-wider tabular-nums text-[#10291C]/50 transition-colors duration-300 group-hover:text-[#298637]">
@@ -143,7 +143,7 @@ export function ServicesSection() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`Solicitar orçamento para ${service.name} pelo WhatsApp`}
-                  className="inline-flex min-h-[40px] items-center gap-2 text-sm font-semibold text-[#10291C] transition-colors hover:text-[#298637]"
+                  className="services-card-cta -mx-2 inline-flex min-h-[40px] origin-center items-center gap-2 rounded-lg px-2 text-sm font-semibold text-[#10291C]"
                 >
                   <WhatsAppIcon className="h-4 w-4 text-[#298637]" />
                   <span>Solicitar orçamento</span>

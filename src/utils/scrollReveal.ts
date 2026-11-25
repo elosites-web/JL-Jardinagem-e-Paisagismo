@@ -50,10 +50,37 @@ export function shouldRevealOnIntersect({
   return boundingClientRectTop < bottomLimit;
 }
 
-export function scrollRevealDirectiveProps(delayMs?: 80 | 120 | 160) {
+export type ScrollRevealDelayMs = 80 | 120 | 160 | 240 | 320 | 360;
+
+export function scrollRevealDirectiveProps(delayMs?: ScrollRevealDelayMs) {
   const delayClass = delayMs ? ` scroll-reveal-delay-${delayMs}` : '';
   return {
     'data-scroll-reveal': 'hidden' as ScrollRevealState,
     className: `scroll-reveal${delayClass}`,
   };
+}
+
+const COVERFLOW_STAGGER_DELAYS: readonly (ScrollRevealDelayMs | undefined)[] = [
+  undefined,
+  80,
+  160,
+  240,
+];
+
+const GALLERY_GRID_STAGGER_DELAYS: readonly (ScrollRevealDelayMs | undefined)[] = [
+  undefined,
+  80,
+  160,
+  240,
+  320,
+];
+
+export function getCoverflowRevealDelay(absDelta: number): ScrollRevealDelayMs | undefined {
+  const clamped = Math.max(0, Math.min(COVERFLOW_STAGGER_DELAYS.length - 1, Math.floor(absDelta)));
+  return COVERFLOW_STAGGER_DELAYS[clamped];
+}
+
+export function getGalleryGridRevealDelay(index: number): ScrollRevealDelayMs | undefined {
+  const safeIndex = Math.max(0, Math.floor(index));
+  return GALLERY_GRID_STAGGER_DELAYS[safeIndex % GALLERY_GRID_STAGGER_DELAYS.length];
 }
