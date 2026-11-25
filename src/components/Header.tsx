@@ -57,7 +57,7 @@ export function Header({ onMobileMenuChange }: HeaderProps) {
       { href: '#servicos', sectionId: 'servicos', label: 'Serviços' },
       { href: '#trabalhos', sectionId: 'trabalhos', label: 'Trabalhos realizados' },
       ...(SITE_CONFIG.showBeforeAfterSimulations
-        ? [{ href: '#antes-depois', sectionId: 'antes-depois' as const, label: 'Antes e depois' }]
+        ? [{ href: '#antes-depois', sectionId: 'antes-depois' as const, label: 'Antes e Depois' }]
         : []),
       { href: '#como-funciona', sectionId: 'como-funciona', label: 'Como funciona' },
       { href: '#duvidas', sectionId: 'duvidas', label: 'Perguntas frequentes' },

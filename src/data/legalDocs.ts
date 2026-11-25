@@ -47,9 +47,10 @@ export const LEGAL_DOCUMENTS: Record<LegalDocKey, LegalDocument> = {
         ],
       },
       {
-        heading: '4. Imagens ilustrativas e simulações geradas por IA',
+        heading: '4. Imagens ilustrativas na seção Antes e Depois',
         paragraphs: [
-          `As imagens sinalizadas como "Imagem ilustrativa" (seção inicial) e "Simulação ilustrativa • imagens geradas por IA" (seção Antes e depois, quando exibida) são representações conceituais e não correspondem a obras ou projetos reais executados pela ${COMPANY.tradeName}.`,
+          `Os comparadores visuais da seção "Antes e Depois" são identificados pelo aviso "Imagens ilustrativas geradas por IA, representativas dos serviços oferecidos pela JL." Embora os cenários tenham sido aprovados pelo responsável técnico (${COMPANY.responsibleName}) como exemplos das possibilidades que a empresa possui capacidade técnica para executar, trata-se de representações ilustrativas e não de registros fotográficos de obras efetivamente executadas.`,
+          `As fotografias de serviços efetivamente realizados pela ${COMPANY.tradeName} permanecem reunidas exclusivamente na seção "Trabalhos realizados" e no registro destacado na seção "Sobre a JL".`,
         ],
       },
       {

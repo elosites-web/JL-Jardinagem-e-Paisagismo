@@ -28,9 +28,15 @@ export const SITE_CONFIG = {
     label: 'Criado e desenvolvido por ēloSites',
     url: 'https://elosites.ia.br/',
   },
-  // Modo protótipo privado: manter false na versão pública até aprovação expressa dos pares ilustrativos
+  // Modo protótipo privado: cenários visuais aprovados comercialmente pelo responsável técnico, mantendo sinalização ilustrativa
   isPrototypeMode: true,
   showBeforeAfterSimulations: true,
+  beforeAfterApproval: {
+    approved: true,
+    approvedBy: COMPANY.responsibleName,
+    technicalCapabilityConfirmed: true,
+    keepIllustrativeClassification: true,
+  },
   // Arquitetura preparada para futuras ferramentas baseadas em consentimento (desativadas por padrão)
   trackingConfig: {
     googleAnalyticsId: '',
@@ -64,7 +70,6 @@ export const SITE_CONFIG = {
       { key: 'hostingProvider', label: 'Identificação do provedor de hospedagem e política de registros técnicos (logs)', status: 'pendente' },
       { key: 'retentionPolicy', label: 'Prazo definido de guarda/descarte de conversas e orçamentos no WhatsApp', status: 'pendente' },
       { key: 'photoRights', label: 'Confirmação formal de direito de uso das 30 fotografias de trabalhos', status: 'pendente' },
-      { key: 'beforeAfterApproval', label: 'Aprovação expressa das simulações ou substituição por pares autênticos antes/depois', status: 'pendente' },
     ] satisfies PendingPublicationItem[],
   },
 } as const;

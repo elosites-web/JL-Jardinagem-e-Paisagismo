@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
-import { MoveHorizontal } from 'lucide-react';
+import { Calendar, MoveHorizontal } from 'lucide-react';
+import { COMPANY } from '../config/company';
 import { SITE_CONFIG } from '../config/siteConfig';
 import { BEFORE_AFTER_PAIRS } from '../data/simulations';
 import { scrollRevealDirectiveProps } from '../utils/scrollReveal';
@@ -38,29 +39,30 @@ export function BeforeAfterSection() {
         >
           <div className="flex flex-wrap items-center gap-3">
             <p className="text-xs font-semibold tracking-[0.18em] uppercase text-[#298637]">
-              Antes e depois · Simulação
+              Antes e Depois · Paisagismo
             </p>
-            <span className="rounded border border-[#BBA98D] bg-[#F5F3E9] px-2.5 py-0.5 text-xs font-semibold text-[#10291C]">
-              Simulação ilustrativa • imagens geradas por IA
-            </span>
           </div>
 
           <h2
             id="antes-depois-heading"
             className="mt-3 font-editorial text-3xl font-semibold leading-[1.12] text-[#10291C] sm:text-4xl lg:text-[2.75rem] text-balance"
           >
-            Visualize o potencial de transformação de uma área externa.
+            Transformações que fazem a diferença.
           </h2>
 
           <p className="mt-3 text-sm leading-relaxed text-[#10291C]/80 sm:text-base">
-            Exemplos conceituais, não são trabalhos realizados pela JL. Utilize o controle
-            deslizante para comparar os cenários ilustrativos.
+            Descubra como os serviços de jardinagem e paisagismo da JL podem renovar seu ambiente,
+            trazendo mais beleza, organização e harmonia aos espaços externos.
+          </p>
+
+          <p className="mt-2 text-xs font-medium text-[#10291C]/70 sm:text-sm">
+            Deslize para visualizar as possibilidades de transformação.
           </p>
         </div>
 
         <div
           role="tablist"
-          aria-label="Selecionar simulação de antes e depois"
+          aria-label="Selecionar cenário de antes e depois em paisagismo"
           className="mt-8 inline-flex max-w-full flex-wrap gap-1.5 rounded-xl border border-[#BBA98D]/40 bg-[#F5F3E9] p-1.5"
         >
           {BEFORE_AFTER_PAIRS.map((pair, idx) => {
@@ -156,11 +158,6 @@ export function BeforeAfterSection() {
                 Depois
               </span>
 
-              {/* Selo permanente legível na imagem */}
-              <span className="pointer-events-none absolute bottom-3 left-3 rounded bg-[#10291C]/85 px-2.5 py-1 text-[11px] font-medium text-[#F5F3E9] backdrop-blur-sm">
-                Simulação ilustrativa
-              </span>
-
               {/* Linha e pegador visual */}
               <div
                 aria-hidden="true"
@@ -196,22 +193,34 @@ export function BeforeAfterSection() {
                 {sliderPosition}%
               </span>
             </div>
+
+            {/* Identificação única e discreta de transparência visual próxima ao comparador */}
+            <p className="mt-2.5 text-xs leading-relaxed text-[#10291C]/70">
+              Imagens ilustrativas geradas por IA, representativas dos serviços oferecidos pela JL.
+            </p>
           </div>
 
           <aside className="rounded-2xl border border-[#BBA98D]/45 bg-[#F5F3E9] p-6 sm:p-8 lg:col-span-4">
             <p className="text-xs font-semibold tracking-[0.16em] uppercase text-[#298637]">
-              Cenário ilustrativo
+              Cuidado em cada detalhe
             </p>
             <h3 className="mt-2 font-editorial text-2xl font-semibold text-[#10291C]">
               {activePair.title}
             </h3>
             <p className="mt-3 text-sm leading-relaxed text-[#10291C]/80">{activePair.subtitle}</p>
-            <div className="mt-6 border-t border-[#BBA98D]/35 pt-5 text-xs leading-relaxed text-[#10291C]/75">
-              <p className="font-semibold text-[#10291C]">Transparência:</p>
-              <p className="mt-1">
-                Exemplos conceituais, não são trabalhos realizados pela JL. Para visualizar obras
-                reais, confira a galeria na seção anterior.
+            <div className="mt-6 border-t border-[#BBA98D]/35 pt-6">
+              <p className="text-xs leading-relaxed text-[#10291C]/75">
+                Atendimento presencial em {COMPANY.serviceArea} para transformação de ambientes
+                externos sob medida.
               </p>
+              <a
+                href="#agendar-visita"
+                aria-label={`Quero transformar meu espaço — agendar visita para orçamento presencial (${activePair.title})`}
+                className="mt-4 inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-lg bg-[#84C62B] px-5 py-3 text-sm font-semibold text-[#10291C] shadow-sm transition-colors hover:bg-[#95d63c]"
+              >
+                <Calendar className="h-4 w-4 shrink-0" aria-hidden="true" />
+                <span>Quero transformar meu espaço</span>
+              </a>
             </div>
           </aside>
         </div>
