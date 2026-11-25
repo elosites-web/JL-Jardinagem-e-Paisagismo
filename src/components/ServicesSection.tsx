@@ -68,8 +68,30 @@ export function ServicesSection() {
 
           <a
             href="#agendar-visita"
-            className="inline-flex min-h-[44px] w-fit items-center gap-2 rounded-lg border border-[#10291C]/25 bg-white/70 px-5 py-2.5 text-sm font-semibold text-[#10291C] transition-colors hover:border-[#298637] hover:bg-white whitespace-nowrap"
+            className="services-cta-link inline-flex min-h-[44px] w-fit items-center gap-2 rounded-lg border border-[#10291C]/25 bg-white/70 px-5 py-2.5 text-sm font-semibold text-[#10291C] transition-colors hover:border-[#298637] hover:bg-white whitespace-nowrap"
           >
+            <span
+              aria-hidden="true"
+              className="services-cta-leaf inline-flex h-4 w-4 shrink-0 items-center justify-center text-[#298637]"
+            >
+              <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none">
+                <path
+                  d="M13.5 2.5C8.5 2.5 4.2 5.1 3.2 9.8C2.9 11.2 3.1 12.4 3.5 13.2C4.4 13.4 5.7 13.4 7.1 13C11.4 11.8 13.5 7.8 13.5 2.5Z"
+                  fill="#84C62B"
+                  fillOpacity="0.3"
+                  stroke="currentColor"
+                  strokeWidth="1.35"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M3.2 13.2C5.4 10.7 8.1 8.1 11.2 5.6"
+                  stroke="currentColor"
+                  strokeWidth="1.25"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </span>
             <Calendar className="h-4 w-4 text-[#298637]" strokeWidth={1.5} aria-hidden="true" />
             <span>Agendar visita</span>
           </a>
@@ -77,7 +99,7 @@ export function ServicesSection() {
 
         <div
           data-scroll-reveal={revealGrid['data-scroll-reveal']}
-          className={`${revealGrid.className} mt-12 grid gap-px rounded-2xl border border-[#BBA98D]/45 bg-[#BBA98D]/35 sm:grid-cols-2 lg:grid-cols-4`}
+          className={`${revealGrid.className} services-grid-glow mt-12 grid gap-px rounded-2xl border border-[#BBA98D]/45 bg-[#BBA98D]/35 sm:grid-cols-2 lg:grid-cols-4`}
         >
           {SERVICES_LIST.map((service, index) => {
             const cornerClass = [
@@ -94,7 +116,7 @@ export function ServicesSection() {
             return (
               <article
                 key={service.id}
-                className={`services-article-card group relative z-0 flex flex-col justify-between bg-[#F5F3E9] p-6 transition-[transform,box-shadow,background-color,border-radius] duration-300 ease-out hover:z-10 hover:scale-105 hover:!rounded-2xl hover:bg-[#FAF8F2] hover:shadow-[0_24px_48px_-14px_rgba(16,41,28,0.22)] hover:ring-1 hover:ring-[#BBA98D]/55 motion-reduce:transition-colors motion-reduce:hover:scale-100 sm:p-7 ${cornerClass}`}
+                className={`services-article-card group relative z-0 flex flex-col justify-between bg-[#F5F3E9] p-6 transition-[transform,box-shadow,background-color,border-radius] duration-300 ease-out hover:z-10 focus-within:z-10 hover:scale-105 focus-within:scale-105 hover:!rounded-2xl focus-within:!rounded-2xl hover:bg-[#FAF8F2] focus-within:bg-[#FAF8F2] hover:shadow-[0_24px_48px_-14px_rgba(16,41,28,0.22)] focus-within:shadow-[0_24px_48px_-14px_rgba(16,41,28,0.22)] hover:ring-1 focus-within:ring-1 hover:ring-[#BBA98D]/55 focus-within:ring-[#BBA98D]/55 motion-reduce:transition-colors motion-reduce:hover:scale-100 motion-reduce:focus-within:scale-100 sm:p-7 ${cornerClass}`}
               >
               <div>
                 <div className="flex items-center justify-between gap-4">

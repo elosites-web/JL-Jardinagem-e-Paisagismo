@@ -222,6 +222,240 @@
   animation: waveOrganicSprout 840ms cubic-bezier(0.22, 1, 0.36, 1) 170ms both;
 }
 
+@property --services-glow-angle {
+  syntax: "<angle>";
+  initial-value: 120deg;
+  inherits: false;
+}
+
+@keyframes servicesContourSweep {
+  from {
+    --services-glow-angle: 120deg;
+  }
+  to {
+    --services-glow-angle: 480deg;
+  }
+}
+
+.services-grid-glow {
+  position: relative;
+  isolation: isolate;
+}
+
+.services-grid-glow::before,
+.services-grid-glow::after {
+  content: "";
+  position: absolute;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.services-grid-glow::before {
+  inset: -1.5px;
+  z-index: 2;
+  padding: 1.5px;
+  background: conic-gradient(
+    from var(--services-glow-angle, 120deg),
+    rgba(132, 198, 43, 0.14) 0deg,
+    rgba(132, 198, 43, 0.56) 52deg,
+    #84C62B 95deg,
+    rgba(218, 243, 152, 0.94) 118deg,
+    #84C62B 145deg,
+    rgba(132, 198, 43, 0.22) 205deg,
+    rgba(132, 198, 43, 0.12) 265deg,
+    rgba(132, 198, 43, 0.62) 318deg,
+    rgba(132, 198, 43, 0.14) 360deg
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+}
+
+.services-grid-glow::after {
+  inset: -4px;
+  z-index: -1;
+  background: linear-gradient(
+    135deg,
+    rgba(132, 198, 43, 0.22) 0%,
+    rgba(132, 198, 43, 0.06) 44%,
+    rgba(132, 198, 43, 0.24) 78%,
+    rgba(132, 198, 43, 0.10) 100%
+  );
+  filter: blur(10px);
+}
+
+.services-grid-glow[data-scroll-reveal="visible"]::before,
+.services-grid-glow[data-scroll-reveal="settled"]::before {
+  opacity: 0.72;
+  animation: servicesContourSweep 1.6s cubic-bezier(0.22, 1, 0.36, 1) 1 both;
+}
+
+.services-grid-glow[data-scroll-reveal="visible"]::after,
+.services-grid-glow[data-scroll-reveal="settled"]::after {
+  opacity: 0.45;
+}
+
+.services-grid-glow:hover::before,
+.services-grid-glow:focus-within::before {
+  opacity: 1;
+  animation: servicesContourSweep 6s linear infinite;
+}
+
+.services-grid-glow:hover::after,
+.services-grid-glow:focus-within::after {
+  opacity: 0.85;
+}
+
+.services-cta-leaf {
+  opacity: 0;
+  transform: translate3d(-6px, 2px, 0) scale(0.68) rotate(-18deg);
+  transition:
+    opacity 460ms cubic-bezier(0.22, 1, 0.36, 1) 140ms,
+    transform 520ms cubic-bezier(0.22, 1, 0.36, 1) 140ms,
+    color 220ms ease;
+  will-change: opacity, transform;
+}
+
+[data-scroll-reveal="visible"] .services-cta-leaf,
+[data-scroll-reveal="settled"] .services-cta-leaf {
+  opacity: 0.92;
+  transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+}
+
+.services-cta-link:hover .services-cta-leaf,
+.services-cta-link:focus .services-cta-leaf,
+.services-cta-link:focus-visible .services-cta-leaf {
+  opacity: 1;
+  color: #10291C;
+  transform: translate3d(0, -1px, 0) scale(1.14) rotate(8deg);
+  transition-delay: 0ms;
+}
+
+@property --service-card-glow-angle {
+  syntax: "<angle>";
+  initial-value: 135deg;
+  inherits: false;
+}
+
+@keyframes serviceCardGlowSweep {
+  from {
+    --service-card-glow-angle: 135deg;
+  }
+  to {
+    --service-card-glow-angle: 495deg;
+  }
+}
+
+.services-article-card {
+  --card-glow-opacity: 0;
+  --card-halo-opacity: 0;
+}
+
+.services-article-card:nth-of-type(1) { --card-glow-delay: 0ms; }
+.services-article-card:nth-of-type(2) { --card-glow-delay: 65ms; }
+.services-article-card:nth-of-type(3) { --card-glow-delay: 130ms; }
+.services-article-card:nth-of-type(4) { --card-glow-delay: 195ms; }
+.services-article-card:nth-of-type(5) { --card-glow-delay: 260ms; }
+.services-article-card:nth-of-type(6) { --card-glow-delay: 325ms; }
+.services-article-card:nth-of-type(7) { --card-glow-delay: 390ms; }
+.services-article-card:nth-of-type(8) { --card-glow-delay: 455ms; }
+
+.services-article-card::before,
+.services-article-card::after {
+  content: "";
+  position: absolute;
+  border-radius: inherit;
+  pointer-events: none;
+  transition: opacity 400ms cubic-bezier(0.22, 1, 0.36, 1) var(--card-glow-delay, 0ms);
+}
+
+.services-article-card::before {
+  inset: 0;
+  z-index: 2;
+  padding: 1.5px;
+  opacity: var(--card-glow-opacity, 0);
+  background: conic-gradient(
+    from var(--service-card-glow-angle, 135deg),
+    rgba(132, 198, 43, 0.12) 0deg,
+    rgba(132, 198, 43, 0.58) 54deg,
+    #84C62B 96deg,
+    rgba(220, 244, 158, 0.95) 120deg,
+    #84C62B 148deg,
+    rgba(132, 198, 43, 0.18) 210deg,
+    rgba(132, 198, 43, 0.10) 270deg,
+    rgba(132, 198, 43, 0.60) 320deg,
+    rgba(132, 198, 43, 0.12) 360deg
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+}
+
+.services-article-card::after {
+  inset: -4px;
+  z-index: 1;
+  padding: 5px;
+  opacity: var(--card-halo-opacity, 0);
+  background: conic-gradient(
+    from var(--service-card-glow-angle, 135deg),
+    rgba(132, 198, 43, 0.12) 0deg,
+    rgba(132, 198, 43, 0.48) 72deg,
+    rgba(132, 198, 43, 0.78) 115deg,
+    rgba(132, 198, 43, 0.36) 160deg,
+    rgba(132, 198, 43, 0.10) 240deg,
+    rgba(132, 198, 43, 0.52) 318deg,
+    rgba(132, 198, 43, 0.12) 360deg
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  filter: blur(6px);
+}
+
+[data-scroll-reveal="visible"] .services-article-card,
+[data-scroll-reveal="settled"] .services-article-card {
+  --card-glow-opacity: 0.44;
+  --card-halo-opacity: 0.24;
+}
+
+[data-scroll-reveal="visible"] .services-article-card::before,
+[data-scroll-reveal="settled"] .services-article-card::before {
+  animation: serviceCardGlowSweep 1.5s cubic-bezier(0.22, 1, 0.36, 1) var(--card-glow-delay, 0ms) 1 both;
+}
+
+.services-article-card:hover,
+.services-article-card:focus-within,
+[data-scroll-reveal] .services-article-card:hover,
+[data-scroll-reveal] .services-article-card:focus-within {
+  --card-glow-delay: 0ms;
+  --card-glow-opacity: 1;
+  --card-halo-opacity: 0.85;
+}
+
+.services-article-card:hover::before,
+.services-article-card:focus-within::before,
+[data-scroll-reveal] .services-article-card:hover::before,
+[data-scroll-reveal] .services-article-card:focus-within::before {
+  animation: serviceCardGlowSweep 4.2s linear infinite;
+}
+
 @keyframes subtleWhatsAppPulse {
   0%, 100% {
     box-shadow: 0 10px 25px -5px rgba(16, 41, 28, 0.28), 0 0 0 0 rgba(16, 41, 28, 0.24);
@@ -793,6 +1027,38 @@
   .wave-divider-parallax[data-sprouted="true"] > path:nth-of-type(n) {
     opacity: 1;
     transform: none;
+    animation: none;
+  }
+
+  .services-grid-glow::before,
+  .services-grid-glow::after,
+  .services-grid-glow[data-scroll-reveal="visible"]::before,
+  .services-grid-glow[data-scroll-reveal="settled"]::before,
+  .services-grid-glow:hover::before,
+  .services-grid-glow:focus-within::before {
+    transition: none;
+    animation: none;
+  }
+
+  .services-cta-leaf,
+  [data-scroll-reveal="visible"] .services-cta-leaf,
+  [data-scroll-reveal="settled"] .services-cta-leaf,
+  .services-cta-link:hover .services-cta-leaf,
+  .services-cta-link:focus .services-cta-leaf,
+  .services-cta-link:focus-visible .services-cta-leaf {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    will-change: auto;
+  }
+
+  .services-article-card::before,
+  .services-article-card::after,
+  [data-scroll-reveal="visible"] .services-article-card::before,
+  [data-scroll-reveal="settled"] .services-article-card::before,
+  .services-article-card:hover::before,
+  .services-article-card:focus-within::before {
+    transition: none;
     animation: none;
   }
 
