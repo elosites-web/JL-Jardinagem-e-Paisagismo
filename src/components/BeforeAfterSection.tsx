@@ -193,11 +193,6 @@ export function BeforeAfterSection() {
                 {sliderPosition}%
               </span>
             </div>
-
-            {/* Identificação única e discreta de transparência visual próxima ao comparador */}
-            <p className="mt-2.5 text-xs leading-relaxed text-[#10291C]/70">
-              Imagens ilustrativas geradas por IA, representativas dos serviços oferecidos pela JL.
-            </p>
           </div>
 
           <aside className="rounded-2xl border border-[#BBA98D]/45 bg-[#F5F3E9] p-6 sm:p-8 lg:col-span-4">
